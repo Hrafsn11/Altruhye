@@ -66,7 +66,7 @@
 
                 <!-- Tombol Donasi -->
                 <a href="{{ route('donations.create') }}" class="block w-full text-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300 mt-4">
-                    Donasi Sekarang
+                    Donasi Sekarang atau kamu mati 
                 </a>
             </div>
 
