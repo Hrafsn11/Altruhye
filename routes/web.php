@@ -9,18 +9,16 @@ use App\Http\Controllers\EmotionalSessionController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\HomeController;
 
+
+
+Route::get('/campaigns/create', [CampaignController::class, 'create'])->name('campaigns.create');
+Route::post('/campaigns', [CampaignController::class, 'store'])->name('campaigns.store');
+
+
 Route::get('/', [HomeController::class, 'index'])->name('welcome');
 
+Route::get('/donasi', [CampaignController::class, 'index'])->name('donasi');
 
-
-
-Route::get('/donasi', function () {
-    $user = Auth::user();
-    return view('donasi', [
-        'Nama' => $user ? $user->name : 'Anonim',
-        'Email' => $user ? $user->email : 'anonim@example.com'
-    ]);
-});
 
 Route::get('/galang', function () {
     $user = Auth::user();
