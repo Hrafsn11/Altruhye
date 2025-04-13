@@ -1,0 +1,1 @@
+<x-layout> <h1 class="text-xl">Galang Bantuan Ga sih</h1></x-layout>
