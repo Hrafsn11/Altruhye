@@ -6,15 +6,13 @@
               <h2 class="text-blue-600 text-lg font-semibold">Berbagi Manfaat Untuk Sesama</h2>
               <h1 class="text-3xl font-bold text-gray-800 mt-2">Setiap bantuanmu pasti bermanfaat</h1>
               <p class="text-gray-600 mt-4">Galang dana dan donasi online kini semakin mudah dilakukan dimanapun dan kapanpun.</p>
-              <button class="bg-red-500 text-white px-6 py-3 rounded-full mt-6 shadow-lg transition-all duration-300 hover:bg-red-600 hover:scale-105">Donasi Sekarang</button>
-              <p class="text-gray-600 mt-4">Download Aplikasi Atapkita</p>
+              <button class="bg-blue-600 text-white px-6 py-3 rounded-full mt-6 shadow-lg transition-all duration-300 hover:bg-blue-600 hover:scale-105">Donasi Sekarang</button>
+              <p class="text-gray-600 mt-4">Download Aplikasi Altruh</p>
               <div class="flex space-x-4 mt-2">
                   <img alt="Google Play Store" class="h-12 transform transition-all duration-300 hover:scale-110"
-                       src="https://storage.googleapis.com/a1aa/image/ih10lROEWWIrxXwEg-o865tC4sVODyADheQaaXrZ2lA.jpg" />
+                       src="https://cdn.worldvectorlogo.com/logos/google-play-badge-2022-2.svg" />
                   <img alt="Apple App Store" class="h-12 transform transition-all duration-300 hover:scale-110"
-                       src="https://storage.googleapis.com/a1aa/image/J1QwXPQMy9Pm4VyLqYLAsvayZsVjHkTg5GpimC3rFO4.jpg" />
-                  <img alt="Huawei AppGallery" class="h-12 transform transition-all duration-300 hover:scale-110"
-                       src="https://storage.googleapis.com/a1aa/image/xRbU0xK0xR3pK29ZJHnJhP0u4HaqgI5jZ27y6IeYmsw.jpg" />
+                       src="https://cdn.worldvectorlogo.com/logos/available-on-the-app-store-1.svg" />
               </div>
           </div>
           <div class="md:w-1/2 flex flex-wrap justify-center mt-6 md:mt-0">
@@ -163,5 +161,151 @@
         </div>
     </div>
 </div>
+
+<section class="bg-white py-16 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto text-center bg-gradient-to-br from-amber-50 via-amber-100 to-orange-100 rounded-lg p-8 shadow-lg">
+    <h2 class="text-2xl font-bold text-gray-900 mb-8">Altruh dalam Angka</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
+      <div>
+        <p class="text-4xl font-extrabold text-blue-600">Rp 520 Juta</p>
+        <p class="mt-2 text-gray-600">Total Donasi Terkumpul</p>
+      </div>
+      <div>
+        <p class="text-4xl font-extrabold text-green-600">1.200+</p>
+        <p class="mt-2 text-gray-600">Campaign Terbantu</p>
+      </div>
+      <div>
+        <p class="text-4xl font-extrabold text-purple-600">3.500+</p>
+        <p class="mt-2 text-gray-600">Donatur Berpartisipasi</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-white py-20 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto text-center">
+    <h2 class="text-3xl font-bold text-gray-900 mb-12">Cerita Mereka, Bukti Nyata</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      
+      <div class="bg-gray-50 p-6 rounded-xl shadow hover:shadow-xl transition">
+        <img class="h-20 w-20 mx-auto rounded-full mb-4" src="https://randomuser.me/api/portraits/women/12.jpg" alt="Ayu">
+        <p class="italic text-gray-700">"Anakku sempat tidak bisa sekolah karena biaya. Berkat Altruh, kami dapat bantuan dengan cepat. Terima kasih untuk semua donatur."</p>
+        <p class="mt-4 font-semibold text-gray-900">Ayu – Ibu Rumah Tangga, Bandung</p>
+      </div>
+
+      <div class="bg-gray-50 p-6 rounded-xl shadow hover:shadow-xl transition">
+        <img class="h-20 w-20 mx-auto rounded-full mb-4" src="https://randomuser.me/api/portraits/men/68.jpg" alt="Fajar">
+        <p class="italic text-gray-700">"Saya ikut membantu kampanye pengobatan adik kecil. Rasanya luar biasa bisa menolong walau sedikit."</p>
+        <p class="mt-4 font-semibold text-gray-900">Fajar – Mahasiswa, Yogyakarta</p>
+      </div>
+
+      <div class="bg-gray-50 p-6 rounded-xl shadow hover:shadow-xl transition">
+        <img class="h-20 w-20 mx-auto rounded-full mb-4" src="https://randomuser.me/api/portraits/women/47.jpg" alt="Dewi">
+        <p class="italic text-gray-700">"Saat merasa sendiri, saya coba fitur dukungan emosional. Rasanya seperti ngobrol dengan teman lama. Terima kasih Altruh."</p>
+        <p class="mt-4 font-semibold text-gray-900">Dewi – Guru SD, Surabaya</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="bg-white py-20 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-4xl mx-auto">
+    <h2 class="text-4xl font-bold text-center text-indigo-800 mb-12">Pertanyaan Umum</h2>
+
+    <div class="space-y-4">
+      <!-- FAQ Item -->
+      <div class="bg-white border-l-4 border-indigo-500 rounded-md shadow p-5">
+        <button onclick="toggleFaq(0)" class="w-full text-left flex justify-between items-center">
+          <span class="font-semibold text-indigo-700 text-lg">Apakah saya harus login untuk berdonasi?</span>
+          <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </button>
+        <div class="mt-3 text-gray-700 hidden" id="faq-0">
+          Tidak. Anda bisa berdonasi tanpa login. Namun, jika ingin menyimpan riwayat dan mendapatkan notifikasi, kami sarankan untuk login.
+        </div>
+      </div>
+
+      <div class="bg-white border-l-4 border-indigo-500 rounded-md shadow p-5">
+        <button onclick="toggleFaq(1)" class="w-full text-left flex justify-between items-center">
+          <span class="font-semibold text-indigo-700 text-lg">Bagaimana saya tahu donasi saya digunakan dengan benar?</span>
+          <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </button>
+        <div class="mt-3 text-gray-700 hidden" id="faq-1">
+          Kami menyediakan pembaruan langsung di setiap kampanye serta laporan transparan dari penggalang bantuan.
+        </div>
+      </div>
+
+      <div class="bg-white border-l-4 border-indigo-500 rounded-md shadow p-5">
+        <button onclick="toggleFaq(2)" class="w-full text-left flex justify-between items-center">
+          <span class="font-semibold text-indigo-700 text-lg">Apakah bisa membantu selain dengan uang?</span>
+          <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </button>
+        <div class="mt-3 text-gray-700 hidden" id="faq-2">
+          Tentu! Anda bisa menyumbang barang atau memberikan dukungan emosional melalui fitur chat kami.
+        </div>
+      </div>
+
+      <div class="bg-white border-l-4 border-indigo-500 rounded-md shadow p-5">
+        <button onclick="toggleFaq(3)" class="w-full text-left flex justify-between items-center">
+          <span class="font-semibold text-indigo-700 text-lg">Bagaimana cara membuat kampanye bantuan?</span>
+          <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </button>
+        <div class="mt-3 text-gray-700 hidden" id="faq-3">
+          Setelah login dan verifikasi identitas, Anda bisa langsung membuat kampanye melalui halaman Galang Bantuan.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    function toggleFaq(index) {
+      const content = document.getElementById('faq-' + index);
+      const icon = document.getElementById('icon-' + index);
+
+      content.classList.toggle('hidden');
+      icon.classList.toggle('rotate-180');
+    }
+  </script>
+</section>
+
+
+<section class="bg-white py-20 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-6xl mx-auto text-center">
+    <h2 class="text-2xl font-bold text-gray-900 mb-12">Keamanan & Kepercayaan</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
+
+      <div class="flex flex-col items-center">
+        <img src="https://static.vecteezy.com/system/resources/previews/011/015/345/non_2x/security-concept-secure-information-3d-render-personal-data-free-png.png" class="w-20 h-20 mb-4" alt="Secure">
+        <p class="font-semibold text-gray-800">Transaksi Aman</p>
+        <p class="text-sm text-gray-600 mt-2">Kami menggunakan enkripsi dan sistem pembayaran terpercaya.</p>
+      </div>
+
+      <div class="flex flex-col items-center">
+        <img src="https://static.vecteezy.com/system/resources/previews/029/896/118/non_2x/3d-social-media-blue-verified-free-png.png" class="w-16 h-16 mb-4" alt="Verified">
+        <p class="font-semibold text-gray-800">Akun Terverifikasi</p>
+        <p class="text-sm text-gray-600 mt-2">Semua penggalang bantuan diverifikasi sebelum kampanye tayang.</p>
+      </div>
+
+      <div class="flex flex-col items-center">
+        <img src="https://static.vecteezy.com/system/resources/thumbnails/028/293/896/small_2x/five-star-ratting-icon-3d-render-illustration-png.png" class="w-16 h-16 mb-4" alt="Report">
+        <p class="font-semibold text-gray-800">Pelaporan Mudah</p>
+        <p class="text-sm text-gray-600 mt-2">Pengguna dapat melaporkan kampanye mencurigakan kapan saja.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<x-footer></x-footer>
 
 </x-layout>

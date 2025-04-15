@@ -73,8 +73,8 @@
     
                     <!-- Gambar -->
                     <div>
-                        <label for="gambar" class="block text-sm font-semibold text-gray-700">Gambar (opsional)</label>
-                        <input type="file" name="gambar" id="gambar" class="w-full border p-3 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" onchange="previewImage()">
+                        <label for="gambar" class="block text-sm font-semibold text-gray-700">Gambar</label>
+                        <input type="file" name="gambar" id="gambar" required class="w-full border p-3 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" onchange="previewImage()">
                         <img id="imagePreview" class="mt-4 hidden w-32 h-32 object-cover rounded-md" alt="Image Preview">
                         @error('gambar') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     </div>
@@ -125,8 +125,11 @@
             const targetAmount = document.getElementById('target_amount').value.trim();
             const targetItems = document.getElementById('target_items').value.trim();
             const targetSessions = document.getElementById('target_sessions').value.trim();
+            const image = document.getElementById('gambar').files[0];
 
-            let isValid = title !== '' && description !== '' && type !== '';
+            let isValid = title !== '' && description !== '' && type !== '' && image;
+
+            
             if (type === 'financial') isValid = isValid && targetAmount !== '';
             if (type === 'goods') isValid = isValid && targetItems !== '';
             if (type === 'emotional') isValid = isValid && targetSessions !== '';
