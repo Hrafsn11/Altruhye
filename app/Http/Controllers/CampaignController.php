@@ -13,22 +13,20 @@ class CampaignController extends Controller
     public function index()
     {
         $campaigns = Campaign::latest()->get();
-        return view('donations.index', compact('campaigns'));
+        return view('campaigns.index', compact('campaigns'));
     }
 
-    public function show($id)
+    public function show(Campaign $campaign)
     {
-        $campaign = Campaign::with('user')->findOrFail($id);
-    
-        $recommendedCampaigns = Campaign::where('id', '!=', $id)
-            ->inRandomOrder()
-            ->take(3)
+        $recommendedCampaigns = Campaign::where('id', '!=', $campaign->id)  // Menghindari kampanye yang sedang ditampilkan
+            ->inRandomOrder()  // Ambil data secara acak
+            ->limit(5)  // Batasi hanya 5 kampanye
             ->get();
-    
+
         return view('campaigns.show', compact('campaign', 'recommendedCampaigns'));
+        
     }
 
-    // Method untuk menampilkan form pembuatan campaign
     public function create()
     {
         return view('campaigns.create');
@@ -37,7 +35,6 @@ class CampaignController extends Controller
     // Method untuk menyimpan campaign yang baru dibuat
     public function store(Request $request)
     {
-        
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -45,11 +42,16 @@ class CampaignController extends Controller
             'target_amount' => 'nullable|numeric|min:1',
             'target_items' => 'nullable|integer|min:1',
             'target_sessions' => 'nullable|integer|min:1',
-            'gambar' => 'nullable|image|max:2048',
+            'gambar' => 'nullable|image|max:2048', // Validasi gambar
         ]);
-
-        $path = $request->file('gambar')?->store('campaigns', 'public');
-
+    
+        // Proses penyimpanan gambar
+        $path = null;
+        if ($request->hasFile('gambar')) {
+            $path = $request->file('gambar')->store('campaigns', 'public'); // Menyimpan gambar
+        }
+    
+        // Menyimpan data kampanye
         Campaign::create([
             'user_id' => Auth::id(),
             'title' => $request->title,
@@ -60,9 +62,10 @@ class CampaignController extends Controller
             'target_items' => $request->type === 'goods' ? $request->target_items : null,
             'target_sessions' => $request->type === 'emotional' ? $request->target_sessions : null,
             'status' => 'pending',
-            'gambar' => $path,
+            'gambar' => $path, // Menyimpan path gambar
         ]);
-
+        
+    
         return redirect()->route('campaigns.index')->with('success', 'Galang bantuan berhasil diajukan!');
     }
-}
+}    

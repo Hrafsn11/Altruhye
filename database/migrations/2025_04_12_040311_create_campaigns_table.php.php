@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('collected_items')->default(0);
             $table->integer('collected_sessions')->default(0);
             $table->enum('status', ['active', 'completed', 'pending', 'rejected'])->default('pending');
+            $table->string('gambar')->nullable(); // Menambahkan kolom gambar
             $table->timestamps();
         });
     }

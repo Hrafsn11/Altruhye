@@ -14,9 +14,12 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
+
 
     <!-- Styles -->
     @livewireStyles
+    
 </head>
 
 <body class="font-sans antialiased">
@@ -63,6 +66,34 @@
         @stack('modals')
         @livewireScripts
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    @if(session('success'))
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            toastr.success("{{ session('success') }}", "Berhasil!", {
+                timeOut: 5000,
+                positionClass: 'toast-top-center',
+                closeButton: true,
+                progressBar: true
+            });
+        });
+    </script>
+@endif
+
+@if(session('error'))
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            toastr.error("{{ session('error') }}", "Gagal!", {
+                timeOut: 5000,
+                positionClass: 'toast-top-center',
+                closeButton: true,
+                progressBar: true
+            });
+        });
+    </script>
+@endif
+
 </body>
 
 </html>

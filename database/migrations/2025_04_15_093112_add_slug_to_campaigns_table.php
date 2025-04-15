@@ -11,17 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('donations', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('campaigns', function (Blueprint $table) {
+            $table->string('slug')->unique()->after('title');
         });
     }
-
-    /**
-     * Reverse the migrations.
-     */
+    
     public function down(): void
     {
-        Schema::dropIfExists('donations');
+        Schema::table('campaigns', function (Blueprint $table) {
+            $table->dropColumn('slug');
+        });
     }
+    
 };
