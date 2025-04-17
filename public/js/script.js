@@ -25,3 +25,34 @@
         menuOpen.classList.toggle('hidden');
         menuClose.classList.toggle('hidden');
     }
+    
+    function toggleNotificationDropdown() {
+        const dropdown = document.getElementById('notification-dropdown');
+        dropdown.classList.toggle('hidden');
+    }
+
+    function toggleDropdown() {
+        const menu = document.getElementById('user-menu');
+        menu.classList.toggle('hidden');
+    }
+
+    function toggleMobileMenu() {
+        const mobileMenu = document.getElementById('mobile-menu');
+        const openIcon = document.getElementById('menu-open');
+        const closeIcon = document.getElementById('menu-close');
+
+        mobileMenu.classList.toggle('hidden');
+        openIcon.classList.toggle('hidden');
+        closeIcon.classList.toggle('hidden');
+    }
+
+    // Optional: klik di luar dropdown untuk menutup
+    document.addEventListener('click', function (event) {
+        const notifButton = event.target.closest('[onclick="toggleNotificationDropdown()"]');
+        const notifDropdown = document.getElementById('notification-dropdown');
+        if (!notifButton && !event.target.closest('#notification-dropdown')) {
+            notifDropdown?.classList.add('hidden');
+        }
+    });
+
+

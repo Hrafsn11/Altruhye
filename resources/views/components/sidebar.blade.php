@@ -45,7 +45,7 @@
   
         <a href="{{ route('chat') }}"
            class="flex items-center gap-3 px-3 py-2 rounded-md transition-all duration-200 justify-center lg:justify-start
-           {{ request()->routeIs('chat') ? 'bg-indigo-100 text-indigo-600 font-semibold' : 'hover:bg-indigo-50 hover:text-indigo-600' }}">
+           {{ request()->routeIs(patterns: 'chat') ? 'bg-indigo-100 text-indigo-600 font-semibold' : 'hover:bg-indigo-50 hover:text-indigo-600' }}">
           <i class="fa-solid fa-message text-lg"></i>
           <span class="text-sm font-medium hidden lg:block">Chat</span>
         </a>

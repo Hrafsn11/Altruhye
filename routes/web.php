@@ -7,6 +7,9 @@ use App\Http\Controllers\DonationController;
 use App\Http\Controllers\EmotionalSessionController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\NotificationController;
+
 
 
 /*
@@ -43,6 +46,18 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/chat', function () {
         return view('chat');
     })->name('chat');
+    Route::post('/notifications/read', function () {
+        Auth::user()->unreadNotifications->markAsRead();
+        return back();
+    })->name('notifications.read');
+    Route::get('/notifications/redirect/{id}', function ($id) {
+        $notification = Auth::user()->notifications()->findOrFail($id);
+        $notification->markAsRead();
+        return redirect($notification->data['url']);
+    })->name('notifications.redirect');
+    Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('notifications.readAll');
+
+    
 });
 
 /*
@@ -57,6 +72,10 @@ Route::get('/', [HomeController::class, 'index'])->name('welcome');
 // Donasi publik (semua orang bisa lihat)
 Route::get('/campaigns', [CampaignController::class, 'index'])->name('campaigns.index');
 Route::get('/campaigns/{campaign}', [CampaignController::class, 'show'])->name('campaigns.show');
+
+
+
+
 
 
 

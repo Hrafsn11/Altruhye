@@ -12,6 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 
+
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -92,4 +93,6 @@ class User extends Authenticatable
 
         return $this->defaultProfilePhotoUrl();
     }
+
+    
 }

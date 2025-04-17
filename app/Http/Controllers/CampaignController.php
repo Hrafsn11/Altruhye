@@ -6,25 +6,30 @@ use App\Models\Campaign;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\CampaignStatusNotification;
+
 
 class CampaignController extends Controller
 {
-    
+
     public function index()
     {
-        $campaigns = Campaign::latest()->get();
+        $campaigns = Campaign::where('status', 'active')->latest()->get();
         return view('campaigns.index', compact('campaigns'));
     }
 
     public function show(Campaign $campaign)
     {
+        if ($campaign->status !== 'active') {
+            abort(403, 'Campaign ini belum disetujui.');
+        }
+
         $recommendedCampaigns = Campaign::where('id', '!=', $campaign->id)  // Menghindari kampanye yang sedang ditampilkan
             ->inRandomOrder()  // Ambil data secara acak
             ->limit(5)  // Batasi hanya 5 kampanye
             ->get();
 
         return view('campaigns.show', compact('campaign', 'recommendedCampaigns'));
-        
     }
 
     public function create()
@@ -44,13 +49,13 @@ class CampaignController extends Controller
             'target_sessions' => 'nullable|integer|min:1',
             'gambar' => 'nullable|image|max:2048', // Validasi gambar
         ]);
-    
+
         // Proses penyimpanan gambar
         $path = null;
         if ($request->hasFile('gambar')) {
             $path = $request->file('gambar')->store('campaigns', 'public'); // Menyimpan gambar
         }
-    
+
         // Menyimpan data kampanye
         Campaign::create([
             'user_id' => Auth::id(),
@@ -64,8 +69,28 @@ class CampaignController extends Controller
             'status' => 'pending',
             'gambar' => $path, // Menyimpan path gambar
         ]);
-        
-    
-        return redirect()->route('campaigns.index')->with('success', 'Galang bantuan berhasil diajukan!');
+
+        // Redirect ke halaman /galang dan tampilkan pesan sukses
+        return redirect()->route('campaigns.create')->with('success', 'Galang bantuan berhasil diajukan! Menunggu verifikasi admin.');
     }
-}    
+
+    public static function approve(Campaign $campaign)
+    {
+        $campaign->update(['status' => 'active']);
+
+        // Kirim notifikasi ke pengguna
+        $campaign->user->notify(new CampaignStatusNotification($campaign, 'disetujui'));
+
+        return redirect()->route('filament.resources.campaigns.index');
+    }
+
+    public static function reject(Campaign $campaign)
+    {
+        $campaign->update(['status' => 'rejected']);
+
+        // Kirim notifikasi ke pengguna
+        $campaign->user->notify(new CampaignStatusNotification($campaign, 'ditolak'));
+
+        return redirect()->route('filament.resources.campaigns.index');
+    }
+}
