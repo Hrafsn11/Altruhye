@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Auth;
 
 
 
+
 class CampaignResource extends Resource
 {
     protected static ?string $model = Campaign::class;
@@ -43,7 +44,7 @@ class CampaignResource extends Resource
                     ->label('Judul')
                     ->required()
                     ->afterStateUpdated(function (Set $set, $state) {
-                        $set('slug', \Str::slug($state));
+                        $set('slug', Str::slug($state));
                     }),
                 Forms\Components\Textarea::make('description')
                     ->label('Deskripsi')
@@ -117,11 +118,6 @@ class CampaignResource extends Resource
                             $record->user->notify(new CampaignStatusNotification($record));
                         }
                     }),
-
-
-
-
-
                 Action::make('reject')
                     ->label('Reject')
                     ->icon('heroicon-o-x-circle')

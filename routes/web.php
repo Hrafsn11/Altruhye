@@ -9,6 +9,8 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\NotificationController;
+;
+
 
 
 
@@ -57,6 +59,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         Route::post('/', [CampaignController::class, 'store'])->name('campaigns.store');
         Route::get('/history', [CampaignController::class, 'history'])->name('campaigns.history');
     });
+
+
+Route::get('/donations/create/{campaign}', [DonationController::class, 'create'])->name('donations.create');
+Route::post('/donations/store', [DonationController::class, 'store'])->name('donations.store');
 
 
 });

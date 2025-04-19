@@ -84,7 +84,7 @@ class Campaign extends Model
 {
     static::creating(function ($campaign) {
         if (empty($campaign->slug)) {
-            $campaign->slug = \Str::slug($campaign->title);
+            $campaign->slug = Str::slug($campaign->title);
         }
     });
 }

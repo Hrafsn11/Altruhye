@@ -67,10 +67,10 @@
                 </div>
 
                 <!-- Tombol Donasi -->
-                <a href="{{ route('campaigns.create') }}"
+                <a href="{{ route('donations.create', $campaign->id) }}"
                     class="block w-full text-center bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-amber-600 transition duration-300 mt-4">
                     Donasi Sekarang
-                </a>
+                 </a>            
             </div>
 
             <!-- Box Rekomendasi Lainnya -->
