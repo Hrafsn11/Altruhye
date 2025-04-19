@@ -34,7 +34,7 @@
                     $withSidebarRoutes = [
                         'profile.show',
                         'verification',
-                        'my-campaigns',
+                        'campaigns.history',
                         'history',
                         'chat',
                         'dashboard',

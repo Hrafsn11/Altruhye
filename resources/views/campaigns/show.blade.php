@@ -61,13 +61,13 @@
                         <span class="text-gray-900 font-medium">{{ number_format($progress, 0) }}%</span>
                     </div>
                     <div class="overflow-hidden h-2 bg-gray-200 rounded">
-                        <div class="h-full bg-blue-600 rounded" style="width: {{ $progress }}%"></div>
+                        <div class="h-full bg-amber-500 rounded" style="width: {{ $progress }}%"></div>
                     </div>
                 </div>
 
                 <!-- Tombol Donasi -->
                 <a href="{{ route('campaigns.create') }}"
-                    class="block w-full text-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300 mt-4">
+                    class="block w-full text-center bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-amber-600 transition duration-300 mt-4">
                     Donasi Sekarang
                 </a>
             </div>

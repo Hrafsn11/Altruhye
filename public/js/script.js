@@ -53,6 +53,11 @@
         if (!notifButton && !event.target.closest('#notification-dropdown')) {
             notifDropdown?.classList.add('hidden');
         }
+        const userButton = event.target.closest('[onclick="toggleDropdown()"]');
+        const userDropdown = document.getElementById('user-menu');
+        if (!userButton && !event.target.closest('#user-menu')) {
+            userDropdown?.classList.add('hidden');
+        }
     });
 
 

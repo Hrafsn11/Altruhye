@@ -93,4 +93,9 @@ class CampaignController extends Controller
 
         return redirect()->route('filament.resources.campaigns.index');
     }
+    public function history()
+    {
+        $campaigns = Campaign::where('user_id', auth()->id())->latest()->paginate(5);
+        return view('campaigns.history', compact('campaigns'));
+    }
 }

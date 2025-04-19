@@ -10,7 +10,7 @@
         </div>
 
         <!-- Syarat & Ketentuan -->
-        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+        <div class="bg-amber-100 border border-amber-200 rounded-lg p-4">
             <h2 class="text-xl font-semibold text-blue-800 mb-2">Syarat & Ketentuan Singkat:</h2>
             <ul class="list-disc list-inside text-sm text-blue-700 space-y-1">
                 <li>Penggalang bantuan wajib mengisi data dengan lengkap dan benar.</li>
@@ -80,7 +80,7 @@
                     </div>
     
                     <!-- Tombol Ajukan -->
-                    <button type="button" onclick="openModal()" class="w-full bg-blue-600 text-white px-4 py-3 rounded-lg hover:bg-blue-700 transition duration-300">Ajukan Bantuan</button>
+                    <button type="button" onclick="openModal()" class="w-full bg-amber-500 text-white px-4 py-3 rounded-lg hover:bg-amber-600 transition duration-300">Ajukan Bantuan</button>
                 </form>
             </div>
         </div>
@@ -93,7 +93,7 @@
             <p class="text-sm text-gray-600 mb-4">Apakah Anda yakin ingin mengajukan bantuan ini?</p>
             <div class="flex justify-end space-x-4">
                 <button onclick="closeModal()" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md">Batal</button>
-                <button onclick="submitForm()" class="bg-blue-600 text-white px-4 py-2 rounded-md">Ajukan</button>
+                <button onclick="submitForm()" class="bg-amber-500 text-white px-4 py-2 rounded-md">Ajukan</button>
             </div>
         </div>
     </div>

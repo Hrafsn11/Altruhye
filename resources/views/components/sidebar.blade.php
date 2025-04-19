@@ -29,9 +29,9 @@
           <span class="text-sm font-medium hidden lg:block">Riwayat</span>
         </a>
   
-        <a href="{{ route('my-campaigns') }}"
+        <a href="{{ route('campaigns.history') }}"
            class="flex items-center gap-3 px-3 py-2 rounded-md transition-all duration-200 justify-center lg:justify-start
-           {{ request()->routeIs('my-campaigns') ? 'bg-indigo-100 text-indigo-600 font-semibold' : 'hover:bg-indigo-50 hover:text-indigo-600' }}">
+           {{ request()->routeIs('campaigns.history') ? 'bg-indigo-100 text-indigo-600 font-semibold' : 'hover:bg-indigo-50 hover:text-indigo-600' }}">
           <i class="fa-solid fa-bullhorn text-lg"></i>
           <span class="text-sm font-medium hidden lg:block">Campaign Saya</span>
         </a>

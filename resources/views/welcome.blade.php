@@ -1,12 +1,12 @@
 <x-layout>
   {{-- HEADER --}}
-  <header class="px-8 py-12 bg-gray-100 rounded-lg">
+  <header class="px-8 py-20 bg-gray-100 rounded-lg">
       <div class="flex flex-col md:flex-row items-center justify-between">
           <div class="md:w-1/2">
               <h2 class="text-blue-600 text-lg font-semibold">Berbagi Manfaat Untuk Sesama</h2>
               <h1 class="text-3xl font-bold text-gray-800 mt-2">Setiap bantuanmu pasti bermanfaat</h1>
               <p class="text-gray-600 mt-4">Galang dana dan donasi online kini semakin mudah dilakukan dimanapun dan kapanpun.</p>
-              <button class="bg-blue-600 text-white px-6 py-3 rounded-full mt-6 shadow-lg transition-all duration-300 hover:bg-blue-600 hover:scale-105">Donasi Sekarang</button>
+              <button class="bg-amber-500 text-white px-6 py-3 rounded-full mt-6 shadow-lg transition-all duration-300 hover:bg-bg-amber-600 hover:scale-105">Donasi Sekarang</button>
               <p class="text-gray-600 mt-4">Download Aplikasi Altruh</p>
               <div class="flex space-x-4 mt-2">
                   <img alt="Google Play Store" class="h-12 transform transition-all duration-300 hover:scale-110"
@@ -129,7 +129,7 @@
                                 <span class="text-gray-900 font-medium">{{ number_format($progress, 0) }}%</span>
                             </div>
                             <div class="overflow-hidden h-2 bg-gray-200 rounded">
-                                <div class="h-full bg-blue-600 rounded" style="width: {{ $progress }}%"></div>
+                                <div class="h-full bg-amber-500 rounded" style="width: {{ $progress }}%"></div>
                             </div>
                         </div>
 
@@ -145,7 +145,7 @@
                         </div>
 
                         <a href="{{ route('campaigns.show', $campaign->id) }}"
-                           class="block w-full text-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
+                           class="block w-full text-center bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-amber-500 transition duration-300">
                             Baca Selengkapnya
                         </a>
                     </div>
@@ -211,13 +211,13 @@
 
 <section class="bg-white py-20 px-4 sm:px-6 lg:px-8">
   <div class="max-w-4xl mx-auto">
-    <h2 class="text-4xl font-bold text-center text-indigo-800 mb-12">Pertanyaan Umum</h2>
+    <h2 class="text-4xl font-bold text-center text-amber-400 mb-12">Pertanyaan Umum</h2>
 
     <div class="space-y-4">
       <!-- FAQ Item -->
-      <div class="bg-white border-l-4 border-indigo-500 rounded-md shadow p-5">
+      <div class="bg-white border-l-4 border-amber-300 rounded-md shadow p-5">
         <button onclick="toggleFaq(0)" class="w-full text-left flex justify-between items-center">
-          <span class="font-semibold text-indigo-700 text-lg">Apakah saya harus login untuk berdonasi?</span>
+          <span class="font-semibold text-amber-500 text-lg">Apakah saya harus login untuk berdonasi?</span>
           <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
           </svg>
@@ -227,9 +227,9 @@
         </div>
       </div>
 
-      <div class="bg-white border-l-4 border-indigo-500 rounded-md shadow p-5">
+      <div class="bg-white border-l-4 border-amber-300 rounded-md shadow p-5">
         <button onclick="toggleFaq(1)" class="w-full text-left flex justify-between items-center">
-          <span class="font-semibold text-indigo-700 text-lg">Bagaimana saya tahu donasi saya digunakan dengan benar?</span>
+          <span class="font-semibold text-amber-500 text-lg">Bagaimana saya tahu donasi saya digunakan dengan benar?</span>
           <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
           </svg>
@@ -239,9 +239,9 @@
         </div>
       </div>
 
-      <div class="bg-white border-l-4 border-indigo-500 rounded-md shadow p-5">
+      <div class="bg-white border-l-4 border-amber-300 rounded-md shadow p-5">
         <button onclick="toggleFaq(2)" class="w-full text-left flex justify-between items-center">
-          <span class="font-semibold text-indigo-700 text-lg">Apakah bisa membantu selain dengan uang?</span>
+          <span class="font-semibold text-amber-500 text-lg">Apakah bisa membantu selain dengan uang?</span>
           <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
           </svg>
@@ -251,9 +251,9 @@
         </div>
       </div>
 
-      <div class="bg-white border-l-4 border-indigo-500 rounded-md shadow p-5">
+      <div class="bg-white border-l-4 border-amber-300 rounded-md shadow p-5">
         <button onclick="toggleFaq(3)" class="w-full text-left flex justify-between items-center">
-          <span class="font-semibold text-indigo-700 text-lg">Bagaimana cara membuat kampanye bantuan?</span>
+          <span class="font-semibold text-amber-500 text-lg">Bagaimana cara membuat kampanye bantuan?</span>
           <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
           </svg>

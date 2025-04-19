@@ -31,7 +31,7 @@
                                 <span class="text-gray-900 font-medium">{{ number_format($progress, 0) }}%</span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-2">
-                                <div class="bg-blue-600 h-2 rounded-full" style="width: {{ $progress }}%"></div>
+                                <div class="bg-amber-500 h-2 rounded-full" style="width: {{ $progress }}%"></div>
                             </div>
                         </div>
 
@@ -48,7 +48,7 @@
                         </div>
 
                         <a href="{{ route('campaigns.show', $campaign->id) }}"
-                            class="block text-center bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+                            class="block text-center bg-amber-500 text-white py-2 rounded-lg hover:bg-amber-600 transition">
                             Donasi Sekarang
                         </a>
                     </div>
