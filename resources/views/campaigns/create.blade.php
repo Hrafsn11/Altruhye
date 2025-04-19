@@ -16,7 +16,7 @@
                 <li>Penggalang bantuan wajib mengisi data dengan lengkap dan benar.</li>
                 <li>Identitas akan diverifikasi sebelum kampanye ditampilkan ke publik.</li>
                 <li>Kampanye tidak boleh mengandung unsur SARA, kekerasan, atau penipuan.</li>
-                <li>Kampanye yang lolos verifikasi akan tayang maksimal 1x24 jam.</li>
+                <li>Kampanye yang lolos verifikasi akan tayang maksimal 1x24 jam</li>
             </ul>
         </div>
 
