@@ -110,16 +110,6 @@
 
                         <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ $campaign->title }}</h3>
 
-                        <div class="flex items-center mb-4">
-                            <img class="h-8 w-8 rounded-full mr-2"
-                                 src="{{ $campaign->user->profile_photo_url ?? asset('storage/images/anonymous.png') }}"
-                                 alt="{{ $campaign->user->name }}">
-                            <div>
-                                <p class="text-sm font-medium text-gray-900">{{ $campaign->user->name ?? 'Anonim' }}</p>
-                                <p class="text-xs text-gray-500">Penggalang Dana</p>
-                            </div>
-                        </div>
-
                         <div class="mb-4">
                             @php
                                 $progress = $campaign->progressPercent();
@@ -143,6 +133,18 @@
                                 <p class="font-semibold text-gray-800">{{ $campaign->displayTarget() }}</p>
                             </div>
                         </div>
+
+                        <!-- Informasi Pembuat Kampanye dengan Pemisah -->
+                        <div class="flex items-center space-x-3 mb-4 border-t border-gray-200 pt-4">
+                          <img class="h-8 w-8 rounded-full"
+                              src="{{ $campaign->user ? $campaign->user->profile_photo_url : asset('images/anonymous.png') }}"
+                              alt="{{ $campaign->user ? $campaign->user->name : 'Admin' }}">
+                          <div>
+                              <p class="text-sm font-medium text-gray-900">
+                                  {{ $campaign->user ? $campaign->user->name : 'Admin' }}</p>
+                              <p class="text-xs text-gray-500">Penggalang Dana</p>
+                          </div>
+                      </div>
 
                         <a href="{{ route('campaigns.show', $campaign->id) }}"
                            class="block w-full text-center bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-amber-500 transition duration-300">

@@ -21,13 +21,14 @@
             <!-- Pembuat Campaign -->
             <div class="flex items-center mt-2 mb-4">
                 <img class="h-10 w-10 rounded-full mr-3"
-                    src="{{ $campaign->user->profile_photo_url ?? asset('storage/images/anonymous.png') }}"
-                    alt="{{ $campaign->user->name }}">
+                     src="{{ $campaign->user ? $campaign->user->profile_photo_url : asset('images/anonymous.png') }}"
+                     alt="{{ $campaign->user ? $campaign->user->name : 'Admin' }}">
                 <div>
-                    <p class="text-sm font-medium text-gray-900">{{ $campaign->user->name ?? 'Anonim' }}</p>
+                    <p class="text-sm font-medium text-gray-900">{{ $campaign->user ? $campaign->user->name : 'Admin' }}</p>
                     <p class="text-xs text-gray-500">Penggalang Dana</p>
                 </div>
             </div>
+            
 
             <!-- Deskripsi -->
             <div class="text-gray-800 leading-relaxed">
