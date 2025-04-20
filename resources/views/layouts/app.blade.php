@@ -58,16 +58,29 @@
                         @endif
 
                         <!-- Page Content -->
-                        <main>
+                        <main class="py-6 px-4 sm:px-6 lg:px-8">
                             {{ $slot }}
                         </main>
-                    </div> <!-- Ini nutup div dari if di atas -->
+                    </div> 
             </div>
         </div>
 
         @stack('modals')
         @livewireScripts
-    </div>
+        @php
+        $noFooterRoutes = [
+            'profile.show',
+            'verification',
+            'campaigns.history',
+            'history',
+            'chat',
+            'dashboard',
+        ];
+    @endphp
+    
+    @if (!in_array(Route::currentRouteName(), $noFooterRoutes))
+        <x-footer />
+    @endif    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     @if(session('success'))
@@ -93,8 +106,64 @@
                 progressBar: true
             });
         });
+
+        
     </script>
 @endif
+<script>
+    const formattedInput = document.getElementById('formatted_target_amount');
+    const rawInput = document.getElementById('target_amount');
+
+    formattedInput.addEventListener('input', function (e) {
+        // Ambil angka tanpa karakter selain digit
+        let angkaBersih = e.target.value.replace(/\D/g, '');
+
+        // Simpan ke input hidden
+        rawInput.value = angkaBersih;
+
+        // Format tampilan dengan titik ribuan
+        formattedInput.value = formatRupiah(angkaBersih);
+    });
+
+    function formatRupiah(angka) {
+        return 'Rp ' + angka.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+</script>
+
+<script>
+    const formattedAmount = document.getElementById('formatted_amount');
+    const rawAmount = document.getElementById('amount');
+
+    formattedAmount.addEventListener('input', function (e) {
+        // Ambil angka tanpa karakter selain digit
+        let angkaBersih = e.target.value.replace(/\D/g, '');
+
+        // Simpan ke input hidden
+        rawAmount.value = angkaBersih;
+
+        // Format tampilan dengan titik ribuan
+        formattedAmount.value = formatRupiah(angkaBersih);
+    });
+
+    function formatRupiah(angka) {
+        return 'Rp ' + angka.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+</script>
+<script>
+
+    // Handle checkbox anonim
+    const hideCheckbox = document.getElementById('hide_name');
+    const donorInput = document.getElementById('donor_name');
+    hideCheckbox?.addEventListener('change', function () {
+        if (this.checked) {
+            donorInput.value = 'Anonim';
+            donorInput.readOnly = true;
+        } else {
+            donorInput.value = '{{ auth()->user()->name ?? '' }}';
+            donorInput.readOnly = true;
+        }
+    });
+</script>
 
 </body>
 

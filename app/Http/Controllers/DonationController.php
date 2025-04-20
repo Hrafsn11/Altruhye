@@ -22,9 +22,11 @@ class DonationController extends Controller
         'type' => 'required|in:financial,goods,emotional',
         'amount' => 'nullable|numeric|required_if:type,financial',
         'item_description' => 'nullable|string|required_if:type,goods',
+        'item_quantity' => 'nullable|integer|min:1|required_if:type,goods',
         'session_count' => 'nullable|integer|required_if:type,emotional',
         'payment_proof' => 'nullable|image|max:2048',
     ]);
+    
 
     if ($request->hasFile('payment_proof')) {
         $validated['payment_proof'] = $request->file('payment_proof')->store('payment_proofs', 'public');

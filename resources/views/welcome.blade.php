@@ -1,6 +1,6 @@
 <x-layout>
   {{-- HEADER --}}
-  <header class="px-8 py-20 bg-gray-100 rounded-lg">
+  <header class="px-8 py-40  bg-gray-50 rounded-lg ">
       <div class="flex flex-col md:flex-row items-center justify-between">
           <div class="md:w-1/2">
               <h2 class="text-blue-600 text-lg font-semibold">Berbagi Manfaat Untuk Sesama</h2>
@@ -31,7 +31,7 @@
   </header>
 
   {{-- FITUR UTAMA --}}
-  <div class="bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="bg-white py-12 px-4 sm:px-6 lg:px-8">
       <div class="max-w-7xl mx-auto">
           <h2 class="text-2xl font-bold text-gray-900 text-center mb-8">Apa yang bisa kamu lakukan di Altruh?</h2>
           <div class="grid grid-cols-1 gap-8 md:grid-cols-3">

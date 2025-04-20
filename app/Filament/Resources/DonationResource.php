@@ -43,8 +43,8 @@ class DonationResource extends Resource
                     ->nullable()
                     ->requiredIf(fn($get) => $get('type') === 'financial', ['type' => 'financial']),
 
-                Forms\Components\TextInput::make('item_description')
-                    ->label('Deskripsi Barang')
+                Forms\Components\TextInput::make('item_quantity')
+                    ->label('Jumlah Barang')
                     ->nullable()
                     ->requiredIf(fn($get) => $get('type') === 'goods', ['type' => 'goods']),
 
@@ -56,7 +56,8 @@ class DonationResource extends Resource
                 // Menambahkan kolom bukti pembayaran
                 FileUpload::make('payment_proof')
                     ->label('Bukti Pembayaran')
-                    ->image() // Bisa sesuaikan dengan tipe file yang dibutuhkan
+                    ->disk('public') 
+                    ->previewable(true)
                     ->nullable(),
 
                 // Menambahkan kolom status verifikasi pembayaran
@@ -75,6 +76,7 @@ class DonationResource extends Resource
     public static function table(Tables\Table $table): Tables\Table
 {
     return $table
+        ->defaultSort('created_at', 'desc') 
         ->columns([
             Tables\Columns\TextColumn::make('donor_name')
                 ->label('Nama Donatur'),
@@ -84,11 +86,20 @@ class DonationResource extends Resource
 
             Tables\Columns\TextColumn::make('amount')
                 ->label('Jumlah Uang')
-                ->money(),
+                ->money('IDR', true)
+                ->sortable(),
 
-            // Status Verifikasi Pembayaran
+            Tables\Columns\TextColumn::make('item_quantity')
+                ->label('Barang')
+                ->sortable(),
+
+            Tables\Columns\TextColumn::make('session_count')
+                ->label('Jumlah Sesi')
+                ->sortable(),
+            
+
             Tables\Columns\TextColumn::make('payment_verified')
-                ->label('Status Verifikasi Pembayaran')
+                ->label('Status Verifikasi')
                 ->badge()
                 ->color(fn($state) => match ($state) {
                     'approved' => 'success',
@@ -96,47 +107,49 @@ class DonationResource extends Resource
                     'pending' => 'warning',
                     default => 'gray',
                 }),
+
+            
         ])
         ->filters([
-            // Menambahkan filter jika perlu
+            Tables\Filters\SelectFilter::make('type')
+                ->label('Jenis Donasi')
+                ->options([
+                    'financial' => 'Uang',
+                    'goods' => 'Barang',
+                    'emotional' => 'Dukungan Emosional',
+                ]),
         ])
         ->actions([
-            // Edit Button
             Tables\Actions\EditAction::make(),
 
-            // Tombol Approve
             Tables\Actions\Action::make('approve')
                 ->label('Approve')
                 ->icon('heroicon-o-check-circle')
                 ->color('success')
-                ->visible(fn($record) => $record->payment_verified === 'pending')
+                ->visible(fn($record) => $record?->payment_verified === 'pending')
                 ->requiresConfirmation()
                 ->action(function ($record) {
                     $record->update(['payment_verified' => 'approved']);
-                    
-                    // Kirim notifikasi ke user jika ada
                     if ($record->user) {
                         $record->user->notify(new DonationStatusNotification($record));
                     }
                 }),
 
-            // Tombol Reject
             Tables\Actions\Action::make('reject')
                 ->label('Reject')
                 ->icon('heroicon-o-x-circle')
                 ->color('danger')
-                ->visible(fn($record) => $record->payment_verified === 'pending')
+                ->visible(fn($record) => $record?->payment_verified === 'pending')
                 ->requiresConfirmation()
                 ->action(function ($record) {
                     $record->update(['payment_verified' => 'rejected']);
-                    
-                    // Kirim notifikasi ke user jika ada
                     if ($record->user) {
                         $record->user->notify(new DonationStatusNotification($record));
                     }
                 }),
         ]);
 }
+
 
 
 

@@ -86,6 +86,7 @@ class CampaignResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+        ->defaultSort('created_at', 'desc') 
             ->columns([
                 Tables\Columns\TextColumn::make('title')->label('Judul'),
                 Tables\Columns\TextColumn::make('type')->label('Tipe'),

@@ -61,8 +61,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     });
 
 
-Route::get('/donations/create/{campaign}', [DonationController::class, 'create'])->name('donations.create');
-Route::post('/donations/store', [DonationController::class, 'store'])->name('donations.store');
 
 
 });
@@ -75,11 +73,15 @@ Route::post('/donations/store', [DonationController::class, 'store'])->name('don
 
 // Landing page
 Route::get('/', [HomeController::class, 'index'])->name('welcome');
+Route::get('/donations/create/{campaign}', [DonationController::class, 'create'])->name('donations.create');
+Route::post('/donations/store', [DonationController::class, 'store'])->name('donations.store');
+
 
 // Donasi publik (semua orang bisa lihat)
 Route::prefix('campaigns')->group(function () {
     Route::get('/', [CampaignController::class, 'index'])->name('campaigns.index');
     Route::get('/{campaign}', [CampaignController::class, 'show'])->name('campaigns.show');
+    
 });
 
 
