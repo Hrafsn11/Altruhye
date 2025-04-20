@@ -8,16 +8,26 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\CampaignStatusNotification;
 
-
 class CampaignController extends Controller
 {
-
-    public function index()
+    // Menampilkan daftar kampanye dengan filter tipe dan pagination
+    public function index(Request $request)
     {
-        $campaigns = Campaign::where('status', 'active')->latest()->get();
+        // Menyiapkan query builder
+        $query = Campaign::where('status', 'active');
+
+        // Filter berdasarkan tipe (financial, goods, emotional)
+        if ($request->filled('type') && in_array($request->type, ['financial', 'goods', 'emotional'])) {
+            $query->where('type', $request->type);
+        }
+
+        // Ambil data dengan pagination
+        $campaigns = $query->latest()->paginate(9);
+
         return view('campaigns.index', compact('campaigns'));
     }
 
+    // Menampilkan detail kampanye
     public function show(Campaign $campaign)
     {
         if ($campaign->status !== 'active') {
@@ -32,18 +42,19 @@ class CampaignController extends Controller
         return view('campaigns.show', compact('campaign', 'recommendedCampaigns'));
     }
 
+    // Menampilkan form untuk membuat kampanye baru
     public function create()
     {
         return view('campaigns.create');
     }
 
-    // Method untuk menyimpan campaign yang baru dibuat
+    // Menyimpan kampanye yang baru dibuat
     public function store(Request $request)
     {
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'type' => 'required|in:financial,goods,emotional',
+            'type' => 'required|in:financial,goods,emotional', // Pastikan tipe valid
             'target_amount' => 'nullable|numeric|min:1',
             'target_items' => 'nullable|integer|min:1',
             'target_sessions' => 'nullable|integer|min:1',
@@ -53,16 +64,16 @@ class CampaignController extends Controller
         // Proses penyimpanan gambar
         $path = null;
         if ($request->hasFile('gambar')) {
-            $path = $request->file('gambar')->store('campaigns', 'public'); // Menyimpan gambar
+            $path = $request->file('gambar')->store('campaigns', 'public');
         }
 
-        // Menyimpan data kampanye
+        // Menyimpan kampanye baru
         Campaign::create([
             'user_id' => Auth::id(),
             'title' => $request->title,
             'slug' => Str::slug($request->title) . '-' . uniqid(),
             'description' => $request->description,
-            'type' => $request->type,
+            'type' => $request->type, // Menyimpan tipe kampanye
             'target_amount' => $request->type === 'financial' ? $request->target_amount : null,
             'target_items' => $request->type === 'goods' ? $request->target_items : null,
             'target_sessions' => $request->type === 'emotional' ? $request->target_sessions : null,
@@ -70,29 +81,26 @@ class CampaignController extends Controller
             'gambar' => $path, // Menyimpan path gambar
         ]);
 
-        // Redirect ke halaman /galang dan tampilkan pesan sukses
         return redirect()->route('campaigns.create')->with('success', 'Galang bantuan berhasil diajukan! Menunggu verifikasi admin.');
     }
 
+    // Menyetujui kampanye
     public static function approve(Campaign $campaign)
     {
         $campaign->update(['status' => 'active']);
-
-        // Kirim notifikasi ke pengguna
         $campaign->user->notify(new CampaignStatusNotification($campaign, 'disetujui'));
-
         return redirect()->route('filament.resources.campaigns.index');
     }
 
+    // Menolak kampanye
     public static function reject(Campaign $campaign)
     {
         $campaign->update(['status' => 'rejected']);
-
-        // Kirim notifikasi ke pengguna
         $campaign->user->notify(new CampaignStatusNotification($campaign, 'ditolak'));
-
         return redirect()->route('filament.resources.campaigns.index');
     }
+
+    // Menampilkan riwayat kampanye oleh pengguna
     public function history()
     {
         $campaigns = Campaign::where('user_id', auth()->id())->latest()->paginate(5);
