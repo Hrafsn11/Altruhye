@@ -101,4 +101,8 @@ class User extends Authenticatable
 
         abort(403, 'Anda belum terverifikasi.');
     }
+    public function identity_verification()
+    {
+        return $this->hasOne(IdentityVerification::class);
+    }
 }
