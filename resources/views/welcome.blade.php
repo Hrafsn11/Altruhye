@@ -1,6 +1,6 @@
 <x-layout>
   {{-- HEADER --}}
-  <header class="px-8 py-20 bg-gray-100 rounded-lg">
+  <header class="px-8 py-40  bg-gray-50 rounded-lg ">
       <div class="flex flex-col md:flex-row items-center justify-between">
           <div class="md:w-1/2">
               <h2 class="text-blue-600 text-lg font-semibold">Berbagi Manfaat Untuk Sesama</h2>
@@ -31,7 +31,7 @@
   </header>
 
   {{-- FITUR UTAMA --}}
-  <div class="bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="bg-white py-12 px-4 sm:px-6 lg:px-8">
       <div class="max-w-7xl mx-auto">
           <h2 class="text-2xl font-bold text-gray-900 text-center mb-8">Apa yang bisa kamu lakukan di Altruh?</h2>
           <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
@@ -110,16 +110,6 @@
 
                         <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ $campaign->title }}</h3>
 
-                        <div class="flex items-center mb-4">
-                            <img class="h-8 w-8 rounded-full mr-2"
-                                 src="{{ $campaign->user->profile_photo_url ?? asset('storage/images/anonymous.png') }}"
-                                 alt="{{ $campaign->user->name }}">
-                            <div>
-                                <p class="text-sm font-medium text-gray-900">{{ $campaign->user->name ?? 'Anonim' }}</p>
-                                <p class="text-xs text-gray-500">Penggalang Dana</p>
-                            </div>
-                        </div>
-
                         <div class="mb-4">
                             @php
                                 $progress = $campaign->progressPercent();
@@ -143,6 +133,18 @@
                                 <p class="font-semibold text-gray-800">{{ $campaign->displayTarget() }}</p>
                             </div>
                         </div>
+
+                        <!-- Informasi Pembuat Kampanye dengan Pemisah -->
+                        <div class="flex items-center space-x-3 mb-4 border-t border-gray-200 pt-4">
+                          <img class="h-8 w-8 rounded-full"
+                              src="{{ $campaign->user ? $campaign->user->profile_photo_url : asset('images/anonymous.png') }}"
+                              alt="{{ $campaign->user ? $campaign->user->name : 'Admin' }}">
+                          <div>
+                              <p class="text-sm font-medium text-gray-900">
+                                  {{ $campaign->user ? $campaign->user->name : 'Admin' }}</p>
+                              <p class="text-xs text-gray-500">Penggalang Dana</p>
+                          </div>
+                      </div>
 
                         <a href="{{ route('campaigns.show', $campaign->id) }}"
                            class="block w-full text-center bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-amber-500 transition duration-300">

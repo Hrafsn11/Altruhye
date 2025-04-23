@@ -17,6 +17,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'phone' => '081234567890',
                 'photo' => null,
+                'role' => 'admin',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -26,6 +27,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'phone' => '082345678901',
                 'photo' => null,
+                'role' => 'admin',
                 'created_at' => now(),
                 'updated_at' => now()
             ]

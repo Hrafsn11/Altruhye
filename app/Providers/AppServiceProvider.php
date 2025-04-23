@@ -5,6 +5,9 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
+use App\Observers\DonationObserver;
+use App\Models\Donation;
+
 
 
 class AppServiceProvider extends ServiceProvider
@@ -21,6 +24,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Paginator::useTailwind();
+        Donation::observe(DonationObserver::class);
+
     }
 
     /**

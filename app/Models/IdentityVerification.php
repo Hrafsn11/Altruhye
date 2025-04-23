@@ -9,7 +9,7 @@ class IdentityVerification extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'ktp_number', 'photo'];
+    protected $fillable = ['user_id', 'ktp_number', 'photo','status'];
 
     public function user()
     {

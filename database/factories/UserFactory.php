@@ -69,4 +69,10 @@ class UserFactory extends Factory
             'ownedTeams'
         );
     }
+    public function admin(): static
+    {
+        return $this->state(fn(array $attributes) => [
+            'role' => 'admin',
+        ]);
+    }
 }
