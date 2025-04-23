@@ -93,6 +93,12 @@ class User extends Authenticatable
 
         return $this->defaultProfilePhotoUrl();
     }
+    public function create()
+    {
+        if (auth()->user()->identity_verification && auth()->user()->identity_verification->status === "approved") {
+            return view('campaigns.create');
+        }
 
-    
+        abort(403, 'Anda belum terverifikasi.');
+    }
 }

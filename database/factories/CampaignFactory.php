@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Campaign;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class CampaignFactory extends Factory
 {
@@ -11,9 +12,12 @@ class CampaignFactory extends Factory
 
     public function definition()
     {
+        $title = $this->faker->sentence;
+
         return [
             'user_id' => \App\Models\User::factory(),
-            'title' => $this->faker->sentence,
+            'title' => $title,
+            'slug' => Str::slug($title),
             'description' => $this->faker->paragraph,
             'type' => $this->faker->randomElement(['financial', 'goods', 'emotional']),
             'target_amount' => $this->faker->randomFloat(2, 100, 10000),

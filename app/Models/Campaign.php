@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Campaign extends Model
 {
@@ -79,5 +80,14 @@ class Campaign extends Model
             default => '-',
         };
     }
+    protected static function booted()
+{
+    static::creating(function ($campaign) {
+        if (empty($campaign->slug)) {
+            $campaign->slug = Str::slug($campaign->title);
+        }
+    });
+}
+
     
 }

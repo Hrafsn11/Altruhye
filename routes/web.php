@@ -9,8 +9,10 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\NotificationController;
-
-
+use App\Http\Controllers\Admin\CampaignController as AdminCampaignController;
+use App\Http\Controllers\Admin\UserController as AdminVerificationController;
+use App\Http\Controllers\Admin\DonaturController as AdminDonaturController;
+use App\Http\Controllers\VerificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,10 +33,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         return view('history');
     })->name('history');
 
-    Route::get('/verification', function () {
-        return view('verification');
-    })->name('verification');
-
+    Route::get('/verification', [VerificationController::class, 'index'])->name('verification');
+    Route::post('/verification', [VerificationController::class, 'store'])->name('verification.store');
     Route::get('/chat', function () {
         return view('chat');
 
@@ -58,7 +58,12 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         Route::get('/history', [CampaignController::class, 'history'])->name('campaigns.history');
     });
 
-
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::resource('campaigns', AdminCampaignController::class);
+        Route::resource('user', AdminVerificationController::class);
+        Route::get('donatur/{campaignId}', [AdminDonaturController::class, 'index'])->name('donatur.index');
+        Route::patch('/donatur/{id}', [AdminDonaturController::class, 'update'])->name('donatur.update');
+    });
 });
 
 /*
@@ -69,11 +74,15 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
 // Landing page
 Route::get('/', [HomeController::class, 'index'])->name('welcome');
+Route::get('/donations/create/{campaign}', [DonationController::class, 'create'])->name('donations.create');
+Route::post('/donations/store', [DonationController::class, 'store'])->name('donations.store');
+
 
 // Donasi publik (semua orang bisa lihat)
 Route::prefix('campaigns')->group(function () {
     Route::get('/', [CampaignController::class, 'index'])->name('campaigns.index');
     Route::get('/{campaign}', [CampaignController::class, 'show'])->name('campaigns.show');
+    
 });
 
 
