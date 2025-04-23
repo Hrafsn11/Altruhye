@@ -90,69 +90,84 @@
     <div class="max-w-7xl mx-auto">
         <h2 class="text-2xl font-bold text-gray-900 text-center mb-8">Bantuan Terkini</h2>
         <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            @foreach ($campaigns as $campaign)
-                <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300">
-                    <div class="relative">
-                        <a href="{{ route('campaigns.show', $campaign->id) }}">
-                            <img class="w-full h-48 object-cover rounded-t-2xl" src="{{ asset('storage/' . $campaign->gambar) }}"
-                                 alt="{{ $campaign->title }}">
-                        </a>
-                        
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-center text-sm text-gray-500 mb-4">
-                            <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                            </svg>
-                            {{ $campaign->created_at->translatedFormat('d F Y') }}
-                        </div>
+          @forelse ($campaigns as $campaign)
+          <div class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300">
+              <div class="relative">
+                  <img class="w-full h-48 object-cover" src="{{ asset('storage/' . $campaign->gambar) }}"
+                       alt="{{ $campaign->title }}">
+                  <div class="absolute top-4 left-4 bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium text-gray-700">
+                      {{ ucfirst($campaign->category) }}
+                  </div>
+              </div>
 
-                        <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ $campaign->title }}</h3>
+              <div class="p-5">
+                  <!-- Tanggal -->
+                  <div class="flex items-center text-xs text-gray-500 mb-3">
+                      <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                      </svg>
+                      {{ $campaign->created_at->translatedFormat('d F Y') }}
+                  </div>
 
-                        <div class="mb-4">
-                            @php
-                                $progress = $campaign->progressPercent();
-                            @endphp
-                            <div class="flex justify-between text-sm mb-2">
-                                <span class="text-gray-600">Progress</span>
-                                <span class="text-gray-900 font-medium">{{ number_format($progress, 0) }}%</span>
-                            </div>
-                            <div class="overflow-hidden h-2 bg-gray-200 rounded">
-                                <div class="h-full bg-amber-500 rounded" style="width: {{ $progress }}%"></div>
-                            </div>
-                        </div>
+                  <!-- Judul -->
+                  <h2 class="text-lg font-semibold text-gray-800 mb-2 line-clamp-2 min-h-[3.5rem]">
+                      {{ $campaign->title }}
+                  </h2>
+                  <!-- Deskripsi -->
+                  <p class="text-sm text-gray-600 mb-4 line-clamp-3">
+                      {{ Str::limit($campaign->description, 150) }}
+                  </p>
 
-                        <div class="flex justify-between items-center mb-4">
-                            <div>
-                                <p class="text-sm text-gray-500">Terkumpul</p>
-                                <p class="font-semibold text-gray-800">{{ $campaign->displayCollected() }}</p>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-sm text-gray-500">Target</p>
-                                <p class="font-semibold text-gray-800">{{ $campaign->displayTarget() }}</p>
-                            </div>
-                        </div>
-
-                        <!-- Informasi Pembuat Kampanye dengan Pemisah -->
-                        <div class="flex items-center space-x-3 mb-4 border-t border-gray-200 pt-4">
-                          <img class="h-8 w-8 rounded-full"
-                              src="{{ $campaign->user ? $campaign->user->profile_photo_url : asset('images/anonymous.png') }}"
-                              alt="{{ $campaign->user ? $campaign->user->name : 'Admin' }}">
-                          <div>
-                              <p class="text-sm font-medium text-gray-900">
-                                  {{ $campaign->user ? $campaign->user->name : 'Admin' }}</p>
-                              <p class="text-xs text-gray-500">Penggalang Dana</p>
-                          </div>
+                  <!-- Progres -->
+                  @php
+                      $progress = $campaign->progressPercent();
+                  @endphp
+                  <div class="mb-4">
+                      <div class="flex justify-between text-xs mb-1 text-gray-600">
+                          <span>Progress</span>
+                          <span>{{ number_format($progress) }}%</span>
                       </div>
+                      <div class="w-full h-2 bg-gray-200 rounded-full">
+                          <div class="h-2 rounded-full bg-amber-500" style="width: {{ $progress }}%"></div>
+                      </div>
+                  </div>
 
-                        <a href="{{ route('campaigns.show', $campaign->id) }}"
-                           class="block w-full text-center bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-amber-500 transition duration-300">
-                            Baca Selengkapnya
-                        </a>
-                    </div>
-                </div>
-            @endforeach
+                  <!-- Terkumpul dan Target -->
+                  <div class="flex justify-between text-xs text-gray-700 mb-4">
+                      <div>
+                          <p class="text-gray-500">Terkumpul</p>
+                          <p class="font-semibold">{{ $campaign->displayCollected() }}</p>
+                      </div>
+                      <div class="text-right">
+                          <p class="text-gray-500">Target</p>
+                          <p class="font-semibold">{{ $campaign->displayTarget() }}</p>
+                      </div>
+                  </div>
+
+                  <!-- Penggalang -->
+                  <div class="flex items-center gap-3 border-t pt-4 mt-4">
+                      <img class="h-8 w-8 rounded-full object-cover"
+                           src="{{ $campaign->user ? $campaign->user->profile_photo_url : asset('images/anonymous.png') }}"
+                           alt="{{ $campaign->user->name ?? 'Admin' }}">
+                      <div class="text-sm">
+                          <p class="font-medium text-gray-800">{{ $campaign->user->name ?? 'Admin' }}</p>
+                          <p class="text-xs text-gray-500">Penggalang Dana</p>
+                      </div>
+                  </div>
+
+                  <!-- Tombol -->
+                  <a href="{{ route('campaigns.show', $campaign->id) }}"
+                     class="block mt-5 w-full text-center bg-amber-500 text-white text-sm font-medium py-2 rounded-lg hover:bg-amber-600 transition">
+                      Donasi Sekarang
+                  </a>
+              </div>
+          </div>
+      @empty
+          <div class="col-span-full text-center text-gray-500 text-sm">
+              Tidak ada kampanye donasi untuk saat ini.
+          </div>
+      @endforelse
         </div>
 
         <div class="text-center mt-8">
@@ -162,7 +177,7 @@
             </a>
         </div>
     </div>
-</div>
+  </div>
 
 <section class="bg-white py-16 px-4 sm:px-6 lg:px-8">
   <div class="max-w-7xl mx-auto text-center bg-gradient-to-br from-amber-50 via-amber-100 to-orange-100 rounded-lg p-8 shadow-lg">

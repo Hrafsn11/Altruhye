@@ -36,7 +36,7 @@ class CampaignController extends Controller
 
         $recommendedCampaigns = Campaign::where('id', '!=', $campaign->id)  // Menghindari kampanye yang sedang ditampilkan
             ->inRandomOrder()  // Ambil data secara acak
-            ->limit(5)  // Batasi hanya 5 kampanye
+            ->limit(3)  // Batasi hanya 5 kampanye
             ->get();
 
         return view('campaigns.show', compact('campaign', 'recommendedCampaigns'));
@@ -54,17 +54,16 @@ class CampaignController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'type' => 'required|in:financial,goods,emotional', // Pastikan tipe valid
+            'type' => 'required|in:financial,goods,emotional', 
             'target_amount' => 'nullable|numeric|min:1',
             'target_items' => 'nullable|integer|min:1',
             'target_sessions' => 'nullable|integer|min:1',
-            'gambar' => 'nullable|image|max:2048', // Validasi gambar
+            'gambar' => 'nullable|image|max:2048', 
         ]);
 
-        // Proses penyimpanan gambar
         $path = null;
-        if ($request->hasFile('gambar')) {
-            $path = $request->file('gambar')->store('campaigns', 'public');
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('campaigns', 'public');
         }
 
         // Menyimpan kampanye baru
@@ -73,12 +72,12 @@ class CampaignController extends Controller
             'title' => $request->title,
             'slug' => Str::slug($request->title) . '-' . uniqid(),
             'description' => $request->description,
-            'type' => $request->type, // Menyimpan tipe kampanye
+            'type' => $request->type, 
             'target_amount' => $request->type === 'financial' ? $request->target_amount : null,
             'target_items' => $request->type === 'goods' ? $request->target_items : null,
             'target_sessions' => $request->type === 'emotional' ? $request->target_sessions : null,
             'status' => 'pending',
-            'gambar' => $path, // Menyimpan path gambar
+            'image' => $path, 
         ]);
 
         return redirect()->route('campaigns.create')->with('success', 'Galang bantuan berhasil diajukan! Menunggu verifikasi admin.');

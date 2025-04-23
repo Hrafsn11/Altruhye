@@ -41,8 +41,9 @@
                         </div>
 
                         <!-- Judul -->
-                        <h2 class="text-lg font-semibold text-gray-800 mb-2 line-clamp-2">{{ $campaign->title }}</h2>
-
+                        <h2 class="text-lg font-semibold text-gray-800 mb-2 line-clamp-2 min-h-[3.5rem]">
+                            {{ $campaign->title }}
+                        </h2>
                         <!-- Deskripsi -->
                         <p class="text-sm text-gray-600 mb-4 line-clamp-3">
                             {{ Str::limit($campaign->description, 150) }}

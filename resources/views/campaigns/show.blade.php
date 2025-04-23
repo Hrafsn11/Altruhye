@@ -7,7 +7,7 @@
             <img src="{{ asset('storage/' . $campaign->gambar) }}" alt="gambar {{ $campaign->title }}" class="w-auto h-auto my-auto">
 
             <!-- Judul -->
-            <h1 class="text-3xl font-bold text-gray-900">{{ $campaign->title }}</h1>
+            <h1 class="text-3xl font-bold text-gray-900 mt-10 ">{{ $campaign->title }}</h1>
 
             <!-- Tanggal -->
             <div class="flex items-center text-sm text-gray-600 mt-2">
