@@ -45,8 +45,16 @@ class CampaignController extends Controller
     // Menampilkan form untuk membuat kampanye baru
     public function create()
     {
-        return view('campaigns.create');
+        $user = auth()->user();
+
+        if ($user->role === 'admin' || optional($user->identity_verification)->status === 'approved') {
+            return view('campaigns.create');
+        }
+
+        abort(403, 'Anda belum terverifikasi.');
     }
+
+
 
     // Menyimpan kampanye yang baru dibuat
     public function store(Request $request)
@@ -103,7 +111,11 @@ class CampaignController extends Controller
     // Menampilkan riwayat kampanye oleh pengguna
     public function history()
     {
-        $campaigns = Campaign::where('user_id', auth()->id())->latest()->paginate(5);
+        $campaigns = Campaign::where('user_id', auth()->id())
+            ->where('status', 'active')
+            ->latest()
+            ->paginate(5);
+
         return view('campaigns.history', compact('campaigns'));
     }
 }
