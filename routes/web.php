@@ -9,6 +9,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\HistoryController;
 ;
 
 
@@ -29,9 +30,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
 
-    Route::get('/history', function () {
-        return view('history');
-    })->name('history');
+    Route::get('/history', [HistoryController::class, 'index'])->name('history');
+
 
     Route::get('/verification', function () {
         return view('verification');
@@ -58,12 +58,15 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         Route::get('/create', [CampaignController::class, 'create'])->name('campaigns.create');
         Route::post('/', [CampaignController::class, 'store'])->name('campaigns.store');
         Route::get('/history', [CampaignController::class, 'history'])->name('campaigns.history');
+         Route::get('/{campaign}/edit', [CampaignController::class, 'edit'])->name('campaigns.edit');
+    Route::put('/{campaign}', [CampaignController::class, 'update'])->name('campaigns.update');
+    Route::delete('/{campaign}', [CampaignController::class, 'destroy'])->name('campaigns.destroy');
+        });
+    
     });
 
 
 
-
-});
 
 /*
 |--------------------------------------------------------------------------

@@ -6,6 +6,7 @@ use App\Models\Campaign;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Notifications\CampaignStatusNotification;
 
 class CampaignController extends Controller
@@ -30,6 +31,7 @@ class CampaignController extends Controller
     // Menampilkan detail kampanye
     public function show(Campaign $campaign)
     {
+        $campaign->refresh();
         if ($campaign->status !== 'active') {
             abort(403, 'Campaign ini belum disetujui.');
         }
@@ -54,16 +56,16 @@ class CampaignController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'type' => 'required|in:financial,goods,emotional', 
+            'type' => 'required|in:financial,goods,emotional',
             'target_amount' => 'nullable|numeric|min:1',
             'target_items' => 'nullable|integer|min:1',
             'target_sessions' => 'nullable|integer|min:1',
-            'gambar' => 'nullable|image|max:2048', 
+            'gambar' => 'nullable|image|max:2048',
         ]);
 
         $path = null;
-        if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('campaigns', 'public');
+        if ($request->hasFile('gambar')) {
+            $path = $request->file('gambar')->store('campaigns', 'public');
         }
 
         // Menyimpan kampanye baru
@@ -72,12 +74,12 @@ class CampaignController extends Controller
             'title' => $request->title,
             'slug' => Str::slug($request->title) . '-' . uniqid(),
             'description' => $request->description,
-            'type' => $request->type, 
+            'type' => $request->type,
             'target_amount' => $request->type === 'financial' ? $request->target_amount : null,
             'target_items' => $request->type === 'goods' ? $request->target_items : null,
             'target_sessions' => $request->type === 'emotional' ? $request->target_sessions : null,
             'status' => 'pending',
-            'image' => $path, 
+            'gambar' => $path,
         ]);
 
         return redirect()->route('campaigns.create')->with('success', 'Galang bantuan berhasil diajukan! Menunggu verifikasi admin.');
@@ -102,7 +104,56 @@ class CampaignController extends Controller
     // Menampilkan riwayat kampanye oleh pengguna
     public function history()
     {
-        $campaigns = Campaign::where('user_id', auth()->id())->latest()->paginate(5);
+        $campaigns = Campaign::where('user_id', Auth::check() ? Auth::id() : null)->latest()->paginate(5);
         return view('campaigns.history', compact('campaigns'));
+    }
+    public function edit(Campaign $campaign)
+    {
+        // Cek apakah user adalah pemilik
+        if ($campaign->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        return view('campaigns.edit', compact('campaign'));
+    }
+
+    public function update(Request $request, Campaign $campaign)
+    {
+        if ($campaign->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'gambar' => 'nullable|image|max:2048',
+        ]);
+
+        if ($request->hasFile('gambar')) {
+            $path = $request->file('gambar')->store('campaigns', 'public');
+            $campaign->gambar = $path;
+        }
+
+        $campaign->title = $request->title;
+        $campaign->description = $request->description;
+        $campaign->save();
+
+        return redirect()->route('campaigns.history')->with('success', 'Kampanye berhasil diperbarui!');
+    }
+
+    public function destroy(Campaign $campaign)
+    {
+        if ($campaign->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        // Optional: Hapus gambar lama dari storage
+        if ($campaign->gambar) {
+            Storage::disk('public')->delete($campaign->gambar);
+        }
+
+        $campaign->delete();
+
+        return redirect()->route('campaigns.history')->with('success', 'Kampanye berhasil dihapus!');
     }
 }
