@@ -33,9 +33,11 @@
                 @php
                     $withSidebarRoutes = [
                         'profile.show',
-                        'verification',
+                        'identity_verifications.create',
+                        'identity_verifications.status',
+                        'identity_verifications.reapply',
                         'campaigns.history',
-                        'history',
+                        'donations.history',
                         'chat',
                         'dashboard',
                     ];
@@ -70,11 +72,13 @@
         @php
         $noFooterRoutes = [
             'profile.show',
-            'verification',
             'campaigns.history',
-            'history',
+            'donations.history',
             'chat',
             'dashboard',
+            'identity_verifications.create',
+            'identity_verifications.status',
+            'identity_verifications.reapply',
         ];
     @endphp
     

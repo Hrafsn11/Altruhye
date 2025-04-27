@@ -10,7 +10,7 @@ use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\HistoryController;
-;
+use App\Http\Controllers\IdentityVerificationController;
 
 
 
@@ -30,7 +30,14 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
 
-    Route::get('/history', [HistoryController::class, 'index'])->name('history');
+    Route::get('/riwayat-donasi', [DonationController::class, 'history'])->name('donations.history')->middleware('auth');
+ 
+    Route::get('identity-verification', [IdentityVerificationController::class, 'create'])->name('identity_verifications.create');
+    Route::post('identity-verification', [IdentityVerificationController::class, 'store'])->name('identity_verifications.store');
+    Route::get('identity-verification/status', [IdentityVerificationController::class, 'status'])->name('identity_verifications.status');
+    Route::get('identity-verification/reapply', [IdentityVerificationController::class, 'reapply'])->name('identity_verifications.reapply');
+
+
 
 
     Route::get('/verification', function () {

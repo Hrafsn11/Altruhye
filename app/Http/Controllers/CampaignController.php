@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Notifications\CampaignStatusNotification;
+use App\Models\IdentityVerification;
 
 class CampaignController extends Controller
 {
@@ -32,23 +33,46 @@ class CampaignController extends Controller
     public function show(Campaign $campaign)
     {
         $campaign->refresh();
+
         if ($campaign->status !== 'active') {
             abort(403, 'Campaign ini belum disetujui.');
         }
 
-        $recommendedCampaigns = Campaign::where('id', '!=', $campaign->id)  // Menghindari kampanye yang sedang ditampilkan
-            ->inRandomOrder()  // Ambil data secara acak
-            ->limit(3)  // Batasi hanya 5 kampanye
+        $recommendedCampaigns = Campaign::where('id', '!=', $campaign->id)
+            ->inRandomOrder()
+            ->limit(3)
             ->get();
 
-        return view('campaigns.show', compact('campaign', 'recommendedCampaigns'));
+        // Ambil daftar donasi untuk campaign ini, termasuk user yang berdonasi
+        $donations = $campaign->donations()->with('user')->latest()->get();
+
+        return view('campaigns.show', compact('campaign', 'recommendedCampaigns', 'donations'));
     }
 
     // Menampilkan form untuk membuat kampanye baru
     public function create()
     {
+        // Cek apakah user sudah terverifikasi
+        $verification = IdentityVerification::where('user_id', Auth::id())->first();
+
+        if ($verification && $verification->status == 'pending') {
+            return redirect()->route('identity_verifications.status')->with('error', 'Sedang Menunggu verifikasi admin.');
+        }
+        if ($verification && $verification->status == 'rejected') {
+            return redirect()->route('identity_verifications.create')->with('error', 'Data Anda ditolak, silakan ajukan ulang verifikasi identitas.');
+        }
+    
+        if (!$verification || $verification->status != 'approved') {
+            return redirect()->route('identity_verifications.create')->with('error', 'Anda harus terverifikasi terlebih dahulu untuk membuat galang bantuan.');
+        }
+    
+        // Periksa jika verifikasi sedang menunggu
+       
+    
+        // User sudah terverifikasi, lanjut ke halaman pembuatan kampanye
         return view('campaigns.create');
     }
+    
 
     // Menyimpan kampanye yang baru dibuat
     public function store(Request $request)

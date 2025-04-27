@@ -15,34 +15,50 @@ class DonationController extends Controller
     }
 
     public function store(Request $request)
-{
-    $validated = $request->validate([
-        'campaign_id' => 'required|exists:campaigns,id',
-        'donor_name' => 'required|string|max:255',
-        'type' => 'required|in:financial,goods,emotional',
-        'amount' => 'nullable|numeric|required_if:type,financial',
-        'item_description' => 'nullable|string|required_if:type,goods',
-        'item_quantity' => 'nullable|integer|min:1|required_if:type,goods',
-        'session_count' => 'nullable|integer|required_if:type,emotional',
-        'payment_proof' => 'nullable|image|max:2048',
-    ]);
-    
+    {
+        $validated = $request->validate([
+            'campaign_id' => 'required|exists:campaigns,id',
+            'donor_name' => 'required|string|max:255',
+            'type' => 'required|in:financial,goods,emotional',
+            'amount' => 'nullable|numeric|required_if:type,financial',
+            'item_description' => 'nullable|string|required_if:type,goods',
+            'item_quantity' => 'nullable|integer|min:1|required_if:type,goods',
+            'session_count' => 'nullable|integer|required_if:type,emotional',
+            'payment_proof' => 'nullable|image|max:2048',
+        ]);
 
-    if ($request->hasFile('payment_proof')) {
-        $validated['payment_proof'] = $request->file('payment_proof')->store('payment_proofs', 'public');
+
+        if ($request->hasFile('payment_proof')) {
+            $validated['payment_proof'] = $request->file('payment_proof')->store('payment_proofs', 'public');
+        }
+
+        $validated['payment_verified'] = 'pending';
+
+        // ⬇️ Ini yang ditambahkan
+        if (auth()->check()) {
+            $validated['user_id'] = auth()->id();
+        }
+
+        Donation::create($validated);
+
+        return redirect()->route('campaigns.show', $validated['campaign_id'])
+            ->with('success', 'Donasi berhasil dikirim dan menunggu verifikasi.');
     }
+    public function history(Request $request)
+    {
+        $query = Donation::where('user_id', Auth::id());
 
-    $validated['payment_verified'] = 'pending';
+        // Filter berdasarkan kategori (financial, goods, emotional)
+        if ($request->filled('category') && in_array($request->category, ['financial', 'goods', 'emotional'])) {
+            $query->whereHas('campaign', function($query) use ($request) {
+                $query->where('type', $request->category);
+            });
+        }
 
-    // ⬇️ Ini yang ditambahkan
-    if (auth()->check()) {
-        $validated['user_id'] = auth()->id();
+        // Pagination dengan 5 item per halaman
+        $donations = $query->with('campaign')->latest()->paginate(5);
+
+        return view('donations.history', compact('donations'));
     }
-
-    Donation::create($validated);
-
-    return redirect()->route('campaigns.show', $validated['campaign_id'])
-        ->with('success', 'Donasi berhasil dikirim dan menunggu verifikasi.');
-}
 
 }

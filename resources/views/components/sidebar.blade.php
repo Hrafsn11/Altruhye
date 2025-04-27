@@ -22,9 +22,9 @@
           <span class="text-sm font-medium hidden lg:block">Edit Profile</span>
         </a>
   
-        <a href="{{ route('history') }}"
+        <a href="{{ route('donations.history') }}"
            class="flex items-center gap-3 px-3 py-2 rounded-md transition-all duration-200 justify-center lg:justify-start
-           {{ request()->routeIs('history') ? 'bg-indigo-100 text-indigo-600 font-semibold' : 'hover:bg-indigo-50 hover:text-indigo-600' }}">
+           {{ request()->routeIs('donations.history') ? 'bg-indigo-100 text-indigo-600 font-semibold' : 'hover:bg-indigo-50 hover:text-indigo-600' }}">
           <i class="fa-solid fa-clock-rotate-left text-lg"></i>
           <span class="text-sm font-medium hidden lg:block">Riwayat</span>
         </a>
@@ -36,9 +36,9 @@
           <span class="text-sm font-medium hidden lg:block">Campaign Saya</span>
         </a>
   
-        <a href="{{ route('verification') }}"
+        <a href="{{ route('identity_verifications.status') }}"
            class="flex items-center gap-3 px-3 py-2 rounded-md transition-all duration-200 justify-center lg:justify-start
-           {{ request()->routeIs('verification') ? 'bg-indigo-100 text-indigo-600 font-semibold' : 'hover:bg-indigo-50 hover:text-indigo-600' }}">
+           {{ request()->routeIs('identity_verifications.status') ? 'bg-indigo-100 text-indigo-600 font-semibold' : 'hover:bg-indigo-50 hover:text-indigo-600' }}">
           <i class="fa-solid fa-id-card text-lg"></i>
           <span class="text-sm font-medium hidden lg:block">Verifikasi Identitas</span>
         </a>

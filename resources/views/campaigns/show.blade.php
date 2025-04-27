@@ -4,7 +4,8 @@
         <!-- Konten Utama -->
         <div class="md:col-span-2 bg-white p-6 rounded-xl shadow-md">
             <!-- Gambar Campaign -->
-            <img src="{{ asset('storage/' . $campaign->gambar) }}" alt="gambar {{ $campaign->title }}" class="w-auto h-auto my-auto">
+            <img src="{{ asset('storage/' . $campaign->gambar) }}" alt="gambar {{ $campaign->title }}"
+                class="w-auto h-auto my-auto">
 
             <!-- Judul -->
             <h1 class="text-3xl font-bold text-gray-900 mt-10 ">{{ $campaign->title }}</h1>
@@ -21,19 +22,22 @@
             <!-- Pembuat Campaign -->
             <div class="flex items-center mt-2 mb-4">
                 <img class="h-10 w-10 rounded-full mr-3"
-                     src="{{ $campaign->user ? $campaign->user->profile_photo_url : asset('images/anonymous.png') }}"
-                     alt="{{ $campaign->user ? $campaign->user->name : 'Admin' }}">
+                    src="{{ $campaign->user ? $campaign->user->profile_photo_url : asset('images/anonymous.png') }}"
+                    alt="{{ $campaign->user ? $campaign->user->name : 'Admin' }}">
                 <div>
-                    <p class="text-sm font-medium text-gray-900">{{ $campaign->user ? $campaign->user->name : 'Admin' }}</p>
+                    <p class="text-sm font-medium text-gray-900">{{ $campaign->user ? $campaign->user->name : 'Admin' }}
+                    </p>
                     <p class="text-xs text-gray-500">Penggalang Dana</p>
                 </div>
             </div>
-            
+
 
             <!-- Deskripsi -->
             <div class="text-gray-800 leading-relaxed">
                 {!! nl2br(e($campaign->description)) !!}
             </div>
+           
+
         </div>
 
         <!-- Sidebar -->
@@ -70,19 +74,23 @@
                 <a href="{{ route('donations.create', $campaign->id) }}"
                     class="block w-full text-center bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-amber-600 transition duration-300 mt-4">
                     Donasi Sekarang
-                 </a>            
+                </a>
             </div>
 
             <!-- Box Rekomendasi Lainnya -->
             <div class="bg-white p-6 rounded-xl shadow-md">
                 <h2 class="text-lg font-semibold text-gray-900 mb-4">Rekomendasi Lainnya</h2>
-                
+
                 <div class="grid grid-cols-1 gap-6">
                     @foreach ($recommendedCampaigns as $recommendation)
-                        <a href="{{ route('campaigns.show', $recommendation->id) }}" class="relative bg-white rounded-xl shadow-md overflow-hidden group cursor-pointer hover:scale-105 transform transition duration-300">
-                            <img class="w-full h-40 object-cover" src="{{ asset('storage/' . $recommendation->gambar) }}"
+                        <a href="{{ route('campaigns.show', $recommendation->id) }}"
+                            class="relative bg-white rounded-xl shadow-md overflow-hidden group cursor-pointer hover:scale-105 transform transition duration-300">
+                            <img class="w-full h-40 object-cover"
+                                src="{{ asset('storage/' . $recommendation->gambar) }}"
                                 alt="{{ $recommendation->title }}">
-                            <div class="absolute inset-0 bg-black opacity-50 group-hover:opacity-0 transition-opacity duration-300"></div>
+                            <div
+                                class="absolute inset-0 bg-black opacity-50 group-hover:opacity-0 transition-opacity duration-300">
+                            </div>
                             <div class="absolute bottom-0 left-0 p-4 text-white z-10">
                                 <h3 class="font-semibold">{{ Str::limit($recommendation->title, 30) }}</h3>
                                 <p class="text-sm">{{ Str::limit($recommendation->description, 40) }}</p>
@@ -91,6 +99,36 @@
                     @endforeach
                 </div>
             </div>
+            @if ($donations->count())
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">Donatur</h2>
+    
+                <div class="space-y-4 max-h-80 overflow-y-auto pr-2">
+                    @foreach ($donations->where('payment_verified', 'approved')->take(5) as $donation)
+            <div class="flex items-center bg-gray-100 rounded-lg p-3">
+                <img class="w-10 h-10 rounded-full mr-3"
+                    src="{{ $donation->user?->profile_photo_url ?? asset('images/anonymous.png') }}"
+                    alt="{{ $donation->user?->name ?? 'Anonim' }}">
+                <div>
+                    <p class="text-sm font-semibold text-gray-800">
+                        {{ $donation->user?->name ?? 'Anonim' }}
+                    </p>
+                    <p class="text-sm text-gray-600">
+                        @if ($campaign->type === 'financial')
+                            Rp{{ number_format($donation->amount, 0, ',', '.') }}
+                        @elseif ($campaign->type === 'goods')
+                            {{ $donation->item_quantity }} Barang
+                        @elseif ($campaign->type === 'emotional')
+                            Sesi Dukungan
+                        @endif
+                    </p>
+                    <p class="text-xs text-gray-500">{{ $donation->created_at->diffForHumans() }}</p>
+                </div>
+            </div>
+        @endforeach
+                </div>
+            </div>
+        @endif
         </div>
 
     </div>
