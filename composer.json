@@ -12,7 +12,7 @@
     ],
     "license": "MIT",
     "require": {
-        "slim/psr7": "^2.6",
+        "slim/psr7": "^1.7",
         "symfony/dependency-injection": "^6.4",
         "php": "^8.2",
         "filament/filament": "^3.3",

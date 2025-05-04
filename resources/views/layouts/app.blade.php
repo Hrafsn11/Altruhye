@@ -38,7 +38,8 @@
                         'identity_verifications.reapply',
                         'campaigns.history',
                         'donations.history',
-                        'chat',
+                        'campaigns.messages',
+                        'messages.index',
                         'dashboard',
                     ];
                 @endphp
@@ -74,7 +75,8 @@
             'profile.show',
             'campaigns.history',
             'donations.history',
-            'chat',
+            'campaigns.messages',
+            'messages.index',
             'dashboard',
             'identity_verifications.create',
             'identity_verifications.status',

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Notifications\CampaignStatusNotification;
 use App\Models\IdentityVerification;
+use App\Models\Donation;
 
 class CampaignController extends Controller
 {
@@ -49,6 +50,23 @@ class CampaignController extends Controller
         return view('campaigns.show', compact('campaign', 'recommendedCampaigns', 'donations'));
     }
 
+    public function showMessages(Campaign $campaign)
+    {
+        // Pastikan hanya pemilik campaign yang bisa akses
+        if ($campaign->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        // Ambil semua donasi emosional dengan pesan
+        $messages = Donation::where('campaign_id', $campaign->id)
+            ->where('type', 'emotional')
+            ->whereNotNull('initial_message')
+            ->latest()
+            ->get();
+
+        return view('campaigns.messages', compact('campaign', 'messages'));
+    }
+
     // Menampilkan form untuk membuat kampanye baru
     public function create()
     {
@@ -61,18 +79,18 @@ class CampaignController extends Controller
         if ($verification && $verification->status == 'rejected') {
             return redirect()->route('identity_verifications.create')->with('error', 'Data Anda ditolak, silakan ajukan ulang verifikasi identitas.');
         }
-    
+
         if (!$verification || $verification->status != 'approved') {
             return redirect()->route('identity_verifications.create')->with('error', 'Anda harus terverifikasi terlebih dahulu untuk membuat galang bantuan.');
         }
-    
+
         // Periksa jika verifikasi sedang menunggu
-       
-    
+
+
         // User sudah terverifikasi, lanjut ke halaman pembuatan kampanye
         return view('campaigns.create');
     }
-    
+
 
     // Menyimpan kampanye yang baru dibuat
     public function store(Request $request)

@@ -5,12 +5,13 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\EmotionalSessionController;
-use App\Http\Controllers\MessageController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\MessageOverviewController;
 use App\Http\Controllers\IdentityVerificationController;
+use App\Http\Controllers\ChatController;
 
 
 
@@ -37,6 +38,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('identity-verification/status', [IdentityVerificationController::class, 'status'])->name('identity_verifications.status');
     Route::get('identity-verification/reapply', [IdentityVerificationController::class, 'reapply'])->name('identity_verifications.reapply');
 
+    Route::get('/campaigns/{campaign}/messages', [CampaignController::class, 'showMessages'])
+    ->name('campaigns.messages');
+    Route::get('/messages', [MessageOverviewController::class, 'index'])->name('messages.index');
 
 
 
@@ -69,7 +73,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::put('/{campaign}', [CampaignController::class, 'update'])->name('campaigns.update');
     Route::delete('/{campaign}', [CampaignController::class, 'destroy'])->name('campaigns.destroy');
         });
-    
+
     });
 
 
@@ -93,6 +97,7 @@ Route::prefix('campaigns')->group(function () {
     Route::get('/{campaign}', [CampaignController::class, 'show'])->name('campaigns.show');
     
 });
+
 
 
 

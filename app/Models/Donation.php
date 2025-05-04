@@ -17,6 +17,7 @@ class Donation extends Model
         'amount',
         'item_description',
         'item_quantity',
+        'initial_message', 
         'session_count',
         'payment_proof',
         'payment_verified',

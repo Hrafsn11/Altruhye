@@ -23,10 +23,9 @@ class DonationController extends Controller
             'amount' => 'nullable|numeric|required_if:type,financial',
             'item_description' => 'nullable|string|required_if:type,goods',
             'item_quantity' => 'nullable|integer|min:1|required_if:type,goods',
-            'session_count' => 'nullable|integer|required_if:type,emotional',
+            'initial_message' => 'nullable|string|required_if:type,emotional', // Perbaikan untuk tipe emosional
             'payment_proof' => 'nullable|image|max:2048',
         ]);
-
 
         if ($request->hasFile('payment_proof')) {
             $validated['payment_proof'] = $request->file('payment_proof')->store('payment_proofs', 'public');
@@ -39,11 +38,19 @@ class DonationController extends Controller
             $validated['user_id'] = auth()->id();
         }
 
-        Donation::create($validated);
+        // Simpan donasi
+        $donation = Donation::create($validated);
+
+        // Jika donasi jenis emosional, simpan pesan pertama
+        if ($donation->type === 'emotional') {
+            // Simpan pesan pertama atau bisa menggunakan logika lain untuk sesi chat
+            $donation->update(['session_count' => 1]); // Anda bisa menambahkannya di model jika perlu
+        }
 
         return redirect()->route('campaigns.show', $validated['campaign_id'])
             ->with('success', 'Donasi berhasil dikirim dan menunggu verifikasi.');
     }
+
     public function history(Request $request)
     {
         $query = Donation::where('user_id', Auth::id());

@@ -1,0 +1,101 @@
+[33mcommit 8bfaa2db679ed06ff636163b6edcf8fb73abdbdf[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mcobafitur[m[33m, [m[1;31morigin/cobafitur[m[33m)[m
+Author: Hrafsn <hadi11ramadhani12@gmail.com>
+Date:   Sun Apr 27 17:35:43 2025 +0700
+
+    verifikasi identitas
+
+[33mcommit 740e3e1bb3ffea9e9ff1fd18a2297af9d7fa55c7[m
+Author: Hrafsn <hadi11ramadhani12@gmail.com>
+Date:   Thu Apr 24 13:30:57 2025 +0700
+
+    donasi dan riwayat sudah bisaa
+
+[33mcommit a00e6dc63456cc15962880cd2289fa63c5864689[m
+Author: Hrafsn <hadi11ramadhani12@gmail.com>
+Date:   Wed Apr 23 11:12:21 2025 +0700
+
+    udh clear
+
+[33mcommit fb3cb1642a3d0270b720a5a227a5886ff343f6bc[m[33m ([m[1;31mAltruh/main[m[33m)[m
+Author: Hrafsn <hadi11ramadhani12@gmail.com>
+Date:   Sun Apr 20 22:06:41 2025 +0700
+
+    udh bisa donasi udh bisa di acc di filament database ny jg sudah bener masuk ke total yang telah donasi
+
+[33mcommit cab4fb4db2e163bd9604ebd518b1c3c96c366693[m
+Author: Hrafsn <hadi11ramadhani12@gmail.com>
+Date:   Sun Apr 20 00:56:51 2025 +0700
+
+    udh bisa donasi tapi masih eror database
+
+[33mcommit f218a3859056fd594c3a8b767b32523fac9e74e5[m
+Author: Hrafsn <hadi11ramadhani12@gmail.com>
+Date:   Sat Apr 19 23:39:23 2025 +0700
+
+    fix filament admin bisa  buat campaigns sendiri
+
+[33mcommit 4e531906c71ab579be9703b5550895f58e85f37c[m
+Author: Hrafsn <hadi11ramadhani12@gmail.com>
+Date:   Sat Apr 19 23:38:14 2025 +0700
+
+    fix filament admin bisa  buat campaigns sendiri
+
+[33mcommit d5aadb01ce71be698524e0c1dd6181dd2480238d[m
+Author: Hrafsn <hadi11ramadhani12@gmail.com>
+Date:   Sat Apr 19 23:31:40 2025 +0700
+
+    fix filament admin bisa  buat campaigns sendiri
+
+[33mcommit 6fe2c5f362f1ec6ba5065fd7cf0c5cbb4ad4554b[m
+Author: Hrafsn <hadi11ramadhani12@gmail.com>
+Date:   Sat Apr 19 19:05:54 2025 +0700
+
+    test doang
+
+[33mcommit dda6270b4c34ef624e465d93d899dd538ea89282[m
+Author: Hrafsn <hadi11ramadhani12@gmail.com>
+Date:   Sat Apr 19 18:56:14 2025 +0700
+
+    Nambahin history
+
+[33mcommit 99f316db5e60635294338535092762bf620ea199[m[33m ([m[1;31morigin/cobafitur-v2[m[33m, [m[1;32mcobafitur-v2[m[33m)[m
+Author: Hrafsn <hadi11ramadhani12@gmail.com>
+Date:   Thu Apr 17 21:33:26 2025 +0700
+
+    filament udh kelar,notif,verif admin,galang bantuan
+
+[33mcommit 6d83e2166e630c0ca4763e9b075faa4b3ed30a23[m
+Author: Hrafsn <hadi11ramadhani12@gmail.com>
+Date:   Tue Apr 15 21:43:58 2025 +0700
+
+    benerin tampilan landing page
+
+[33mcommit 88ac755f43929da2604d6c1527f26d6fa6f5de5c[m
+Author: Hrafsn <hadi11ramadhani12@gmail.com>
+Date:   Tue Apr 15 17:13:37 2025 +0700
+
+    tambahin kolom no hp di edit profile
+
+[33mcommit 584f693332ff1bb361fce5b992ac0c3585220661[m
+Author: Hrafsn <hadi11ramadhani12@gmail.com>
+Date:   Tue Apr 15 17:08:56 2025 +0700
+
+    udh selesai galang bantuan,halaman donasi
+
+[33mcommit aa7bf5a667b5e44bebba21b286e1882dc655d0a1[m
+Author: Hrafsn <hadi11ramadhani12@gmail.com>
+Date:   Sun Apr 13 21:10:48 2025 +0700
+
+    cobafitur
+
+[33mcommit 4007a28804c74da1c47bb70b0c1411e15f6c0598[m
+Author: Hrafsn <hadi11ramadhani12@gmail.com>
+Date:   Sun Apr 13 16:13:24 2025 +0700
+
+    cobafitur
+
+[33mcommit e94e11d390914cd48e36d37bbc9a3a9dfb6c8c19[m
+Author: Hrafsn <hadi11ramadhani12@gmail.com>
+Date:   Sun Apr 13 16:07:12 2025 +0700
+
+    Commit awal proyek Altruhye
