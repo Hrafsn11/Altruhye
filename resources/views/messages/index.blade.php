@@ -1,47 +1,43 @@
 <x-app-layout>
-    <div class="max-w-6xl mx-auto px-4 py-10">
-        <h2 class="text-3xl font-bold mb-8 text-gray-800">Pesan Dukungan Emosional</h2>
+    <div class="max-w-6xl mx-auto px-6 py-12">
+        <h2 class="text-3xl font-bold mb-8 text-gray-800 text-center">Pesan Dukungan Emosional</h2>
 
         @if ($campaigns->isEmpty())
             <div class="text-gray-500 text-center py-20">
                 <p class="text-xl">Belum ada kampanye yang Anda buat.</p>
             </div>
         @else
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 @foreach ($campaigns as $campaign)
                     @php
-                        $messages = $campaign->donations;
-                        $unreadCount = $messages->where('is_read', false)->count();
+                        // Ambil semua donasi untuk kampanye ini (termasuk donasi emosional)
+                        $messages = $campaign->donations()->where('type', 'emotional')->get();
+                        $messageCount = $messages->count();
                     @endphp
 
-                    <div class="bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition p-5 flex flex-col justify-between">
-                        <div>
-                            <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ $campaign->title }}</h3>
+                    <div class="bg-white border border-gray-200 rounded-xl shadow-2xl hover:shadow-2xl transition transform hover:scale-105 duration-300 ease-in-out">
+                        <div class="p-6 flex flex-col justify-between">
+                            <h3 class="text-2xl font-semibold text-gray-900 mb-4">{{ $campaign->title }}</h3>
 
-                            @if ($messages->count() > 0)
-                                <p class="text-sm text-gray-700 mb-3 line-clamp-3">
-                                    "{{ Str::limit($messages->last()->initial_message, 100) }}"
+                            @if ($messageCount > 0)
+                                <p class="text-base text-gray-700 mb-4 line-clamp-3">
+                                    "{{ Str::limit($messages->last()->initial_message, 120) }}"
                                 </p>
 
-                                <div class="flex items-center gap-2">
-                                    <span class="inline-block bg-indigo-100 text-indigo-700 text-xs font-semibold px-3 py-1 rounded-full">
-                                        Ada pesan untuk kamu
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="inline-block bg-amber-100 text-amber-700 text-xs font-semibold px-4 py-2 rounded-full shadow-md">
+                                        Ada {{ $messageCount }} pesan untuk kamu
                                     </span>
-
-                                    @if ($unreadCount > 0)
-                                        <span class="inline-block bg-red-100 text-red-700 text-xs font-semibold px-2 py-1 rounded-full">
-                                            {{ $unreadCount }} belum dibaca
-                                        </span>
-                                    @endif
                                 </div>
+                                <span class="text-sm text-gray-500 italic">Terakhir: {{ $messages->last()->created_at->diffForHumans() }}</span>
                             @else
-                                <p class="text-sm text-gray-500 italic mb-3">Belum ada pesan masuk.</p>
+                                <p class="text-sm text-gray-500 italic mb-4">Belum ada pesan masuk.</p>
                             @endif
                         </div>
 
-                        <div class="mt-4">
+                        <div class="bg-gradient-to-r from-amber-400 to-amber-500 p-4 rounded-b-xl text-center">
                             <a href="{{ route('campaigns.messages', $campaign) }}"
-                               class="inline-block w-full text-center bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-md transition">
+                               class="inline-block w-full text-center bg-white hover:bg-amber-200 text-amber-600 hover:text-amber-700 text-sm font-semibold py-3 rounded-md transition duration-200">
                                 Lihat Pesan
                             </a>
                         </div>

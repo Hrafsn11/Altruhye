@@ -12,6 +12,7 @@ use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\MessageOverviewController;
 use App\Http\Controllers\IdentityVerificationController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\DashboardController;
 
 
 
@@ -25,9 +26,7 @@ use App\Http\Controllers\ChatController;
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     
     
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
 
@@ -97,6 +96,8 @@ Route::prefix('campaigns')->group(function () {
     Route::get('/{campaign}', [CampaignController::class, 'show'])->name('campaigns.show');
     
 });
+
+
 
 
 

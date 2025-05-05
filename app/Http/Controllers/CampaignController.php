@@ -23,9 +23,10 @@ class CampaignController extends Controller
         if ($request->filled('type') && in_array($request->type, ['financial', 'goods', 'emotional'])) {
             $query->where('type', $request->type);
         }
-
+    
         // Ambil data dengan pagination
         $campaigns = $query->latest()->paginate(9);
+    
 
         return view('campaigns.index', compact('campaigns'));
     }
@@ -56,7 +57,8 @@ class CampaignController extends Controller
         if ($campaign->user_id !== auth()->id()) {
             abort(403);
         }
-
+        
+    
         // Ambil semua donasi emosional dengan pesan
         $messages = Donation::where('campaign_id', $campaign->id)
             ->where('type', 'emotional')
