@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Message;
+
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
@@ -10,12 +11,12 @@ class MessageController extends Controller
     public function index()
     {
         $messages = Message::all();
-        return view('messages.index', compact('messages'));
+        return view('message.index', compact('message'));
     }
 
     public function create()
     {
-        return view('messages.create');
+        return view('message.create');
     }
 
     public function store(Request $request)
@@ -28,6 +29,6 @@ class MessageController extends Controller
 
         Message::create($request->all());
 
-        return redirect()->route('messages.index');
+        return redirect()->route('message.index');
     }
 }
