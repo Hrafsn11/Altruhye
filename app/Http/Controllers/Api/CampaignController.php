@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CampaignResource;
 use App\Models\Campaign;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -14,21 +15,12 @@ class CampaignController extends Controller
      */
     public function index(Request $request)
     {
-        // Menyiapkan query builder
         $query = Campaign::where('status', 'active');
-
-        // Filter berdasarkan tipe (financial, goods, emotional)
         if ($request->filled('type') && in_array($request->type, ['financial', 'goods', 'emotional'])) {
             $query->where('type', $request->type);
         }
-    
-        // Ambil data dengan pagination
         $campaigns = $query->latest()->paginate(10);
-        
-        return response()->json([
-            'success' => true,
-            'data' => $campaigns,
-        ]);
+        return CampaignResource::collection($campaigns);
     }
 
     /**
@@ -93,30 +85,19 @@ class CampaignController extends Controller
                   ->where('payment_verified', 'verified')
                   ->latest();
         }])->find($id);
-
         if (!$campaign) {
             return response()->json([
                 'success' => false,
                 'message' => 'Campaign not found'
             ], 404);
         }
-
         if ($campaign->status !== 'active') {
             return response()->json([
                 'success' => false,
                 'message' => 'Campaign is not active'
             ], 403);
         }
-
-        // Tambahkan property untuk progress
-        $campaign->progress_percent = $campaign->progressPercent();
-        $campaign->display_target = $campaign->displayTarget();
-        $campaign->display_collected = $campaign->displayCollected();
-
-        return response()->json([
-            'success' => true,
-            'data' => $campaign
-        ]);
+        return new CampaignResource($campaign);
     }
 
     /**

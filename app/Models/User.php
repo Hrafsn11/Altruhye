@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -13,11 +15,9 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser // Implementasikan FilamentUser
 {
     use HasApiTokens;
-
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory;
     use HasProfilePhoto;
     use Notifiable;
@@ -33,7 +33,8 @@ class User extends Authenticatable
         'email',
         'password',
         'phone',
-        'profile_photo_path'
+        'profile_photo_path',
+        'is_admin', // Tambahkan is_admin ke fillable
     ];
 
     /**
@@ -49,6 +50,17 @@ class User extends Authenticatable
     ];
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+        'is_admin' => 'boolean', // Cast is_admin sebagai boolean
+    ];
+
+    /**
      * The accessors to append to the model's array form.
      *
      * @var array<int, string>
@@ -56,19 +68,6 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
 
     /**
      * Get the default profile photo URL if no profile photo has been uploaded.
@@ -100,5 +99,17 @@ class User extends Authenticatable
     public function identityVerification()
     {
         return $this->hasOne(IdentityVerification::class);
+    }
+
+    // Implementasi method canAccessPanel
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->is_admin; // Hanya user dengan is_admin true yang bisa akses
+    }
+
+    // Relasi ke Campaign
+    public function campaigns()
+    {
+        return $this->hasMany(Campaign::class);
     }
 }

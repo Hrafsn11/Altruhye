@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\DonationResource;
 use App\Models\Campaign;
 use App\Models\Donation;
 use Illuminate\Http\Request;
@@ -16,28 +17,16 @@ class DonationController extends Controller
      */
     public function index(Request $request)
     {
-        // Jika campaign_id diberikan, tampilkan donasi untuk kampanye tersebut
         $query = Donation::query();
-        
         if ($request->filled('campaign_id')) {
             $query->where('campaign_id', $request->campaign_id);
         }
-        
         if ($request->filled('type')) {
             $query->where('type', $request->type);
         }
-        
-        // Hanya mengembalikan donasi yang sudah diverifikasi
         $query->where('payment_verified', 'verified');
-        
-        $donations = $query->with('campaign:id,title,slug')
-                          ->latest()
-                          ->paginate(15);
-        
-        return response()->json([
-            'success' => true,
-            'data' => $donations,
-        ]);
+        $donations = $query->with('campaign:id,title,slug')->latest()->paginate(15);
+        return DonationResource::collection($donations);
     }
 
     /**
@@ -117,18 +106,13 @@ class DonationController extends Controller
     public function show(string $id)
     {
         $donation = Donation::with('campaign:id,title,slug')->find($id);
-        
         if (!$donation) {
             return response()->json([
                 'success' => false,
                 'message' => 'Donation not found',
             ], 404);
         }
-        
-        return response()->json([
-            'success' => true,
-            'data' => $donation,
-        ]);
+        return new DonationResource($donation);
     }
 
     /**

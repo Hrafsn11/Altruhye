@@ -13,7 +13,7 @@ class Campaign extends Model
     protected $fillable = [
         'user_id',
         'title',
-        'slug', // tambahkan ini
+        'slug', 
         'description',
         'type',
         'target_amount',

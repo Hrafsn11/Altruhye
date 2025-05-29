@@ -23,3 +23,22 @@ Route::apiResource('donations', DonationController::class)->only(['index', 'show
 // Auth API Routes
 Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+
+// Admin Campaign API
+Route::middleware(['auth:sanctum'])->prefix('admin')->group(function() {
+    Route::get('campaigns/pending', [\App\Http\Controllers\Api\Admin\CampaignApiController::class, 'pending']);
+    Route::post('campaigns/{id}/approve', [\App\Http\Controllers\Api\Admin\CampaignApiController::class, 'approve']);
+    Route::post('campaigns/{id}/reject', [\App\Http\Controllers\Api\Admin\CampaignApiController::class, 'reject']);
+});
+
+// Admin Donation & Identity Verification API
+Route::middleware(['auth:sanctum'])->prefix('admin')->group(function() {
+    // Donation
+    Route::get('donations/pending', [\App\Http\Controllers\Api\Admin\DonationApiController::class, 'pending']);
+    Route::post('donations/{id}/approve', [\App\Http\Controllers\Api\Admin\DonationApiController::class, 'approve']);
+    Route::post('donations/{id}/reject', [\App\Http\Controllers\Api\Admin\DonationApiController::class, 'reject']);
+    // Identity Verification
+    Route::get('identity-verifications/pending', [\App\Http\Controllers\Api\Admin\IdentityVerificationApiController::class, 'pending']);
+    Route::post('identity-verifications/{id}/approve', [\App\Http\Controllers\Api\Admin\IdentityVerificationApiController::class, 'approve']);
+    Route::post('identity-verifications/{id}/reject', [\App\Http\Controllers\Api\Admin\IdentityVerificationApiController::class, 'reject']);
+});

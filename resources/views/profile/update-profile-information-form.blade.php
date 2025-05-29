@@ -11,74 +11,82 @@
         <!-- Profile Photo -->
         @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
             <div x-data="{photoName: null, photoPreview: null}" class="col-span-6 sm:col-span-4">
+                <!-- Profile Photo File Input -->
+                <input type="file" id="photo" class="hidden"
+                            wire:model.live="photo"
+                            x-ref="photo"
+                            x-on:change="
+                                    photoName = $refs.photo.files[0].name;
+                                    const reader = new FileReader();
+                                    reader.onload = (e) => {
+                                        photoPreview = e.target.result;
+                                    };
+                                    reader.readAsDataURL($refs.photo.files[0]);
+                            " />
+
                 <x-label for="photo" value="{{ __('Foto Profil') }}" class="text-amber-600 font-semibold" />
 
                 <!-- Current Profile Photo -->
-                <div class="mt-3" x-show="!photoPreview">
-                    <img src="{{ $this->user->profile_photo_url }}"
-                         alt="{{ $this->user->name }}"
-                         class="rounded-full h-24 w-24 object-cover border-4 border-amber-500 shadow-lg transition-all transform hover:scale-105">
+                <div class="mt-2" x-show="! photoPreview">
+                    <img src="{{ $this->user->profile_photo_url }}" alt="{{ $this->user->name }}" class="rounded-full h-20 w-20 object-cover border border-gray-300">
                 </div>
 
                 <!-- New Profile Photo Preview -->
-                <div class="mt-3" x-show="photoPreview">
-                    <span class="block rounded-full w-24 h-24 bg-cover bg-no-repeat bg-center border-4 border-amber-300 shadow-lg"
-                          x-bind:style="'background-image: url(\'' + photoPreview + '\');'"
-                          class="transition-all transform hover:scale-105">
+                <div class="mt-2" x-show="photoPreview" style="display: none;">
+                    <span class="block rounded-full w-20 h-20 bg-cover bg-no-repeat bg-center border border-gray-300"
+                          x-bind:style="'background-image: url(\\'' + photoPreview + '\\\');'">
                     </span>
                 </div>
 
-                <!-- File input -->
-                <input type="file" class="hidden"
-                    wire:model="photo"
-                    x-ref="photo"
-                    x-on:change="
-                        photoName = $refs.photo.files[0].name;
-                        const reader = new FileReader();
-                        reader.onload = (e) => { photoPreview = e.target.result; };
-                        reader.readAsDataURL($refs.photo.files[0]);
-                    " />
+                <x-secondary-button class="mt-2 me-2" type="button" x-on:click.prevent="$refs.photo.click()">
+                    {{ __('Pilih Foto Baru') }}
+                </x-secondary-button>
 
-                <div class="flex items-center mt-4 space-x-3">
-                    <x-secondary-button class="text-amber-600 border-amber-400 hover:bg-amber-100 transition-all ease-in-out"
-                                        type="button"
-                                        x-on:click.prevent="$refs.photo.click()">
-                        {{ __('Pilih Foto Baru') }}
+                @if ($this->user->profile_photo_path)
+                    <x-secondary-button type="button" class="mt-2" wire:click="deleteProfilePhoto">
+                        {{ __('Hapus Foto') }}
                     </x-secondary-button>
+                @endif
 
-                    @if ($this->user->profile_photo_path)
-                        <x-secondary-button type="button"
-                                            class="text-red-600 border-red-400 hover:bg-red-100 transition-all ease-in-out"
-                                            wire:click="deleteProfilePhoto">
-                            {{ __('Hapus Foto') }}
-                        </x-secondary-button>
-                    @endif
-                </div>
+                <x-input-error for="photo" class="mt-2" />
             </div>
         @endif
 
         <!-- Name -->
-        <div class="col-span-6 sm:col-span-4 mt-6">
+        <div class="col-span-6 sm:col-span-4">
             <x-label for="name" value="{{ __('Nama Lengkap') }}" class="text-amber-600 font-semibold" />
-            <x-input id="name" type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-md focus:ring-amber-500 focus:border-amber-500 transition-all"
-                     wire:model.defer="state.name" autocomplete="name" />
+            <x-input id="name" type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-md focus:border-amber-500 focus:ring-amber-500 sm:text-sm transition-all" wire:model.defer="state.name" autocomplete="name" />
             <x-input-error for="name" class="mt-2" />
         </div>
 
         <!-- Phone -->
         <div class="col-span-6 sm:col-span-4 mt-4">
             <x-label for="phone" value="{{ __('Nomor Telepon') }}" class="text-amber-600 font-semibold" />
-            <x-input id="phone" type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-md focus:ring-amber-500 focus:border-amber-500 transition-all"
-                     wire:model.defer="state.phone" />
+            <x-input id="phone" type="text" class="mt-1 block w-full border-gray-300 rounded-lg shadow-md focus:border-amber-500 focus:ring-amber-500 sm:text-sm transition-all" wire:model.defer="state.phone" />
             <x-input-error for="phone" class="mt-2" />
         </div>
 
         <!-- Email -->
         <div class="col-span-6 sm:col-span-4 mt-4">
             <x-label for="email" value="{{ __('Email') }}" class="text-amber-600 font-semibold" />
-            <x-input id="email" type="email" class="mt-1 block w-full border-gray-300 rounded-lg shadow-md focus:ring-amber-500 focus:border-amber-500 transition-all"
-                     wire:model.defer="state.email" />
+            <x-input id="email" type="email" class="mt-1 block w-full border-gray-300 rounded-lg shadow-md focus:border-amber-500 focus:ring-amber-500 sm:text-sm transition-all" wire:model.defer="state.email" autocomplete="username" />
             <x-input-error for="email" class="mt-2" />
+
+            @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::emailVerification()) && ! $this->user->hasVerifiedEmail())
+                <p class="text-sm mt-2">
+                    {{ __('Alamat email Anda belum diverifikasi.') }}
+
+                    <button type="button" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" wire:click.prevent="sendEmailVerification">
+                        {{ __('Klik di sini untuk mengirim ulang email verifikasi.') }}
+                    </button>
+                </p>
+
+                @if ($this->verificationLinkSent)
+                    <p class="mt-2 font-medium text-sm text-green-600">
+                        {{ __('Tautan verifikasi baru telah dikirim ke alamat email Anda.') }}
+                    </p>
+                @endif
+            @endif
         </div>
     </x-slot>
 
@@ -87,8 +95,7 @@
             {{ __('Tersimpan.') }}
         </x-action-message>
 
-        <x-button class="bg-amber-500 hover:bg-amber-600 text-white shadow-lg rounded-full px-6 py-2 focus:outline-none focus:ring-2 focus:ring-amber-300 transition-all duration-200 ease-in-out"
-                  wire:loading.attr="disabled" wire:target="photo">
+        <x-button wire:loading.attr="disabled" wire:target="photo">
             {{ __('Simpan') }}
         </x-button>
     </x-slot>

@@ -40,10 +40,11 @@ class CampaignController extends Controller
             abort(403, 'Campaign ini belum disetujui.');
         }
 
-        $recommendedCampaigns = Campaign::where('id', '!=', $campaign->id)
-            ->inRandomOrder()
-            ->limit(3)
-            ->get();
+        $recommendedCampaigns = Campaign::where('status', 'active') // Filter by active status
+                                ->where('id', '!=', $campaign->id)
+                                ->inRandomOrder()
+                                ->limit(3)
+                                ->get();
 
         // Ambil daftar donasi untuk campaign ini, termasuk user yang berdonasi
         $donations = $campaign->donations()->with('user')->latest()->get();

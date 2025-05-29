@@ -89,13 +89,16 @@
   <div class="bg-white py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-7xl mx-auto">
         <h2 class="text-2xl font-bold text-gray-900 text-center mb-8">Bantuan Terkini</h2>
+        @php
+            $activeCampaigns = $campaigns->where('status', 'active');
+        @endphp
         <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          @forelse ($campaigns as $campaign)
-          <div class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300">
+          @forelse ($activeCampaigns as $campaign)
+          <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 border border-gray-200/80">
               <div class="relative">
                   <img class="w-full h-48 object-cover" src="{{ asset('storage/' . $campaign->gambar) }}"
                        alt="{{ $campaign->title }}">
-                  <div class="absolute top-4 left-4 bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium text-gray-700">
+                  <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-amber-700 shadow-sm">
                       {{ ucfirst($campaign->category) }}
                   </div>
               </div>
@@ -103,7 +106,7 @@
               <div class="p-5">
                   <!-- Tanggal -->
                   <div class="flex items-center text-xs text-gray-500 mb-3">
-                      <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg class="h-4 w-4 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                       </svg>
@@ -111,11 +114,11 @@
                   </div>
 
                   <!-- Judul -->
-                  <h2 class="text-lg font-semibold text-gray-800 mb-2 line-clamp-2 min-h-[3.5rem]">
+                  <h2 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 min-h-[3.5rem]">
                       {{ $campaign->title }}
                   </h2>
                   <!-- Deskripsi -->
-                  <p class="text-sm text-gray-600 mb-4 line-clamp-3">
+                  <p class="text-sm text-gray-600 mb-4 line-clamp-3 min-h-[4.5rem]">
                       {{ Str::limit($campaign->description, 150) }}
                   </p>
 
@@ -125,22 +128,22 @@
                   @endphp
                   <div class="mb-4">
                       <div class="flex justify-between text-xs mb-1 text-gray-600">
-                          <span>Progress</span>
-                          <span>{{ number_format($progress) }}%</span>
+                          <span class="font-medium">Progress</span>
+                          <span class="font-semibold text-amber-600">{{ number_format($progress) }}%</span>
                       </div>
-                      <div class="w-full h-2 bg-gray-200 rounded-full">
-                          <div class="h-2 rounded-full bg-amber-500" style="width: {{ $progress }}%"></div>
+                      <div class="w-full h-2.5 bg-gray-200 rounded-full">
+                          <div class="h-2.5 rounded-full bg-gradient-to-r from-amber-400 to-amber-600" style="width: {{ $progress }}%"></div>
                       </div>
                   </div>
 
                   <!-- Terkumpul dan Target -->
-                  <div class="flex justify-between text-xs text-gray-700 mb-4">
+                  <div class="flex justify-between text-sm text-gray-700 mb-4">
                       <div>
-                          <p class="text-gray-500">Terkumpul</p>
-                          <p class="font-semibold">{{ $campaign->displayCollected() }}</p>
+                          <p class="text-xs text-gray-500">Terkumpul</p>
+                          <p class="font-bold text-amber-600">{{ $campaign->displayCollected() }}</p>
                       </div>
                       <div class="text-right">
-                          <p class="text-gray-500">Target</p>
+                          <p class="text-xs text-gray-500">Target</p>
                           <p class="font-semibold">{{ $campaign->displayTarget() }}</p>
                       </div>
                   </div>

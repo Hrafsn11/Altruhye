@@ -50,22 +50,63 @@
                             </form>
 
                             @php
-                                $allNotifications = auth()->user() ? auth()->user()->notifications : [];
+                                $allNotifications = auth()->user() ? auth()->user()->notifications()->orderBy('created_at', 'desc')->get() : [];
                             @endphp
 
                             @forelse ($allNotifications as $notification)
                                 @php
-                                    $url = $notification->data['url'] ?? '#';
+                                    $notificationData = $notification->data;
+                                    $url = $notificationData['link'] ?? ($notificationData['url'] ?? null ? route('notifications.redirect', ['id' => $notification->id]) : '#');
+                                    $icon = $notificationData['icon'] ?? 'heroicon-o-information-circle';
+                                    $title = $notificationData['title'] ?? 'Notifikasi Baru';
+                                    $message = $notificationData['message'] ?? 'Anda memiliki pemberitahuan baru.';
+                                    $timestamp = $notificationData['timestamp'] ?? $notification->created_at->toIso8601String();
+
+                                    $bgColor = $notification->read_at ? 'bg-white hover:bg-gray-50' : 'bg-amber-50 hover:bg-amber-100';
+                                    $textColor = $notification->read_at ? 'text-gray-700' : 'text-amber-700';
+                                    $iconColor = 'text-gray-500';
+                                    $titleFontWeight = $notification->read_at ? 'font-medium' : 'font-semibold';
+
+                                    switch ($notificationData['type'] ?? 'info') {
+                                        case 'success':
+                                            $iconColor = 'text-green-500';
+                                            break;
+                                        case 'error':
+                                            $iconColor = 'text-red-500';
+                                            break;
+                                        case 'warning':
+                                            $iconColor = 'text-yellow-500';
+                                            break;
+                                        default:
+                                            $iconColor = 'text-blue-500'; // Default for info or other types
+                                            break;
+                                    }
                                 @endphp
-                                <a href="{{ $url }}"
-                                    class="block px-4 py-3 text-sm rounded-lg mx-2 my-1 transition
-        duration-200 ease-in-out
-        {{ $notification->read_at
-            ? 'text-gray-700 hover:bg-orange-50'
-            : 'text-gray-900 font-semibold bg-orange-100 hover:bg-orange-200' }}">
-                                    <div>{{ $notification->data['title'] ?? 'Notifikasi' }}</div>
-                                    <div class="text-xs text-gray-600 mt-1">
-                                        {{ $notification->data['message'] ?? '' }}</div>
+                                <a href="{{ $url }}" data-notification-id="{{ $notification->id }}"
+                                   class="block px-4 py-3 mx-2 my-1 rounded-lg transition duration-200 ease-in-out {{ $bgColor }}">
+                                    <div class="flex items-start space-x-3">
+                                        <div class="flex-shrink-0 pt-0.5">
+                                            {{-- Menggunakan Blade UI Kit Heroicons atau SVG langsung --}}
+                                            @if (Str::startsWith($icon, 'heroicon-'))
+                                                <x-dynamic-component :component="$icon" class="h-6 w-6 {{ $iconColor }}" />
+                                            @else
+                                                {{-- Fallback jika ikon tidak terdaftar atau format lain --}}
+                                                <svg class="h-6 w-6 {{ $iconColor }}" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                            @endif
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="text-sm {{ $titleFontWeight }} {{ $textColor }}">{{ $title }}</p>
+                                            <p class="text-sm text-gray-600 truncate-2-lines">{{ $message }}</p>
+                                            <p class="text-xs text-gray-400 mt-1">
+                                                <time datetime="{{ $timestamp }}">{{ \Carbon\Carbon::parse($timestamp)->diffForHumans() }}</time>
+                                            </p>
+                                        </div>
+                                        @if(!$notification->read_at)
+                                            <div class="flex-shrink-0 self-center">
+                                                <div class="w-2.5 h-2.5 bg-amber-500 rounded-full"></div>
+                                            </div>
+                                        @endif
+                                    </div>
                                 </a>
                             @empty
                                 <p class="text-gray-500 text-sm px-4 py-2">Tidak ada notifikasi baru</p>

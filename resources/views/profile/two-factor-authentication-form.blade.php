@@ -1,22 +1,22 @@
 <x-action-section>
     <x-slot name="title">
-        <h2 class="text-2xl font-semibold text-amber-600">{{ __('Autentikasi Dua Faktor') }}</h2>
+        <span class="text-amber-600 font-semibold">{{ __('Autentikasi Dua Faktor') }}</span>
     </x-slot>
 
     <x-slot name="description">
-        <p class="text-sm text-gray-600">{{ __('Tambahkan lapisan keamanan tambahan pada akun Anda dengan menggunakan autentikasi dua faktor.') }}</p>
+        {{ __('Tambahkan lapisan keamanan tambahan pada akun Anda menggunakan autentikasi dua faktor.') }}
     </x-slot>
 
     <x-slot name="content">
         <h3 class="text-lg font-medium text-gray-900">
             @if ($this->enabled)
                 @if ($showingConfirmation)
-                    {{ __('Selesaikan proses aktivasi autentikasi dua faktor.') }}
+                    {{ __('Selesaikan aktivasi autentikasi dua faktor.') }}
                 @else
-                    {{ __('Autentikasi dua faktor telah diaktifkan.') }}
+                    {{ __('Anda telah mengaktifkan autentikasi dua faktor.') }}
                 @endif
             @else
-                {{ __('Autentikasi dua faktor belum diaktifkan.') }}
+                {{ __('Anda belum mengaktifkan autentikasi dua faktor.') }}
             @endif
         </h3>
 
@@ -38,7 +38,7 @@
                     </p>
                 </div>
 
-                <div class="mt-4 p-2 inline-block bg-white rounded-lg shadow-md">
+                <div class="mt-4 p-2 inline-block bg-white">
                     {!! $this->user->twoFactorQrCodeSvg() !!}
                 </div>
 
@@ -50,8 +50,8 @@
 
                 @if ($showingConfirmation)
                     <div class="mt-4">
-                        <x-label for="code" value="{{ __('Kode') }}" />
-                        <x-input id="code" type="text" name="code" class="block mt-1 w-1/2 border-gray-300 rounded-lg shadow-md focus:ring-amber-500 focus:border-amber-500"
+                        <x-label for="code" value="{{ __('Kode') }}" class="text-amber-600 font-semibold" />
+                        <x-input id="code" type="text" name="code" class="block mt-1 w-1/2 rounded-md shadow-sm border-gray-300 focus:border-amber-500 focus:ring-amber-500"
                                  inputmode="numeric" autofocus autocomplete="one-time-code"
                                  wire:model="code"
                                  wire:keydown.enter="confirmTwoFactorAuthentication" />
@@ -78,26 +78,26 @@
         <div class="mt-5">
             @if (! $this->enabled)
                 <x-confirms-password wire:then="enableTwoFactorAuthentication">
-                    <x-button type="button" wire:loading.attr="disabled" class="bg-amber-500 hover:bg-amber-600 text-white shadow-lg px-6 py-2 rounded-md">
+                    <x-button type="button" wire:loading.attr="disabled">
                         {{ __('Aktifkan') }}
                     </x-button>
                 </x-confirms-password>
             @else
                 @if ($showingRecoveryCodes)
                     <x-confirms-password wire:then="regenerateRecoveryCodes">
-                        <x-secondary-button class="me-3 text-amber-500 hover:text-amber-600">
+                        <x-secondary-button class="me-3">
                             {{ __('Regenerasi Kode Pemulihan') }}
                         </x-secondary-button>
                     </x-confirms-password>
                 @elseif ($showingConfirmation)
                     <x-confirms-password wire:then="confirmTwoFactorAuthentication">
-                        <x-button type="button" class="me-3 bg-amber-500 hover:bg-amber-600 text-white shadow-lg px-6 py-2 rounded-md" wire:loading.attr="disabled">
+                        <x-button type="button" class="me-3" wire:loading.attr="disabled">
                             {{ __('Konfirmasi') }}
                         </x-button>
                     </x-confirms-password>
                 @else
                     <x-confirms-password wire:then="showRecoveryCodes">
-                        <x-secondary-button class="me-3 text-amber-500 hover:text-amber-600">
+                        <x-secondary-button class="me-3">
                             {{ __('Tampilkan Kode Pemulihan') }}
                         </x-secondary-button>
                     </x-confirms-password>
@@ -105,17 +105,18 @@
 
                 @if ($showingConfirmation)
                     <x-confirms-password wire:then="disableTwoFactorAuthentication">
-                        <x-secondary-button wire:loading.attr="disabled" class="text-gray-600 hover:text-gray-700">
+                        <x-secondary-button wire:loading.attr="disabled">
                             {{ __('Batal') }}
                         </x-secondary-button>
                     </x-confirms-password>
                 @else
                     <x-confirms-password wire:then="disableTwoFactorAuthentication">
-                        <x-danger-button wire:loading.attr="disabled" class="bg-red-600 hover:bg-red-700 text-white shadow-lg px-6 py-2 rounded-md">
+                        <x-danger-button wire:loading.attr="disabled">
                             {{ __('Nonaktifkan') }}
                         </x-danger-button>
                     </x-confirms-password>
                 @endif
+
             @endif
         </div>
     </x-slot>
