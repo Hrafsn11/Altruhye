@@ -19,6 +19,9 @@ Route::middleware('auth:sanctum')->group(function() {
 
 // Donation API Routes
 Route::apiResource('donations', DonationController::class)->only(['index', 'show', 'store']);
+Route::middleware('auth:sanctum')->group(function() {
+    Route::get('my-donations', [DonationController::class, 'myDonations']);
+});
 
 // Auth API Routes
 Route::post('/login', [AuthController::class, 'login']);

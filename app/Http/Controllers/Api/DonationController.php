@@ -72,27 +72,19 @@ class DonationController extends Controller
         }
 
         $data = $validator->validated();
-        
+        // Override user_id agar tidak bisa diisi dari luar
+        $data['user_id'] = $request->user('sanctum')?->id;
         // Handle payment proof upload
         if ($request->hasFile('payment_proof')) {
             $data['payment_proof'] = $request->file('payment_proof')->store('payment_proofs', 'public');
         }
-
         $data['payment_verified'] = 'pending';
-        
-        // Simpan user_id jika user sudah login
-        if ($request->user()) {
-            $data['user_id'] = $request->user()->id;
-        }
-
         // Simpan donasi
         $donation = Donation::create($data);
-
         // Jika donasi jenis emosional, set session_count ke 1
         if ($donation->type === 'emotional') {
             $donation->update(['session_count' => 1]);
         }
-
         return response()->json([
             'success' => true,
             'message' => 'Donation successfully submitted and awaiting verification',
@@ -137,5 +129,19 @@ class DonationController extends Controller
             'success' => false,
             'message' => 'Endpoint not available',
         ], 403);
+    }
+
+    /**
+     * Get donation history for the authenticated user.
+     */
+    public function myDonations(Request $request)
+    {
+        $user = $request->user();
+        $donations = Donation::with('campaign:id,title,slug,type')
+            ->where('user_id', $user->id)
+            ->latest()
+            ->paginate(10);
+
+        return DonationResource::collection($donations);
     }
 }
