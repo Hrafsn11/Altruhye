@@ -42,3 +42,10 @@ Route::middleware(['auth:sanctum'])->prefix('admin')->group(function() {
     Route::post('identity-verifications/{id}/approve', [\App\Http\Controllers\Api\Admin\IdentityVerificationApiController::class, 'approve']);
     Route::post('identity-verifications/{id}/reject', [\App\Http\Controllers\Api\Admin\IdentityVerificationApiController::class, 'reject']);
 });
+
+// Identity Verification API (user)
+Route::middleware('auth:sanctum')->group(function() {
+    Route::post('identity-verifications', [\App\Http\Controllers\Api\IdentityVerificationApiController::class, 'store']);
+    Route::post('identity-verifications/raw', [\App\Http\Controllers\Api\IdentityVerificationApiController::class, 'storeRaw']);
+    Route::get('identity-verifications/me', [\App\Http\Controllers\Api\IdentityVerificationApiController::class, 'me']);
+});

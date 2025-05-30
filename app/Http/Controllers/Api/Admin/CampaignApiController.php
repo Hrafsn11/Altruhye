@@ -9,8 +9,14 @@ use Illuminate\Http\Request;
 class CampaignApiController extends Controller
 {
     // Approve campaign
-    public function approve($id)
+    public function approve(Request $request, $id)
     {
+        if (!$request->user() || !$request->user()->is_admin) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized. Only admin can perform this action.',
+            ], 401);
+        }
         $campaign = Campaign::find($id);
         if (!$campaign) {
             return response()->json(['success' => false, 'message' => 'Campaign not found'], 404);
@@ -21,8 +27,14 @@ class CampaignApiController extends Controller
     }
 
     // Reject campaign
-    public function reject($id)
+    public function reject(Request $request, $id)
     {
+        if (!$request->user() || !$request->user()->is_admin) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized. Only admin can perform this action.',
+            ], 401);
+        }
         $campaign = Campaign::find($id);
         if (!$campaign) {
             return response()->json(['success' => false, 'message' => 'Campaign not found'], 404);
@@ -33,8 +45,14 @@ class CampaignApiController extends Controller
     }
 
     // List campaigns with status pending (need approval)
-    public function pending()
+    public function pending(Request $request)
     {
+        if (!$request->user() || !$request->user()->is_admin) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized. Only admin can perform this action.',
+            ], 401);
+        }
         $pendingCampaigns = Campaign::where('status', 'pending')->latest()->get();
         return response()->json([
             'success' => true,

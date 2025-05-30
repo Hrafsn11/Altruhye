@@ -9,8 +9,14 @@ use Illuminate\Http\Request;
 class DonationApiController extends Controller
 {
     // Approve donation
-    public function approve($id)
+    public function approve(Request $request, $id)
     {
+        if (!$request->user() || !$request->user()->is_admin) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized. Only admin can perform this action.',
+            ], 401);
+        }
         $donation = Donation::find($id);
         if (!$donation) {
             return response()->json(['success' => false, 'message' => 'Donation not found'], 404);
@@ -21,8 +27,14 @@ class DonationApiController extends Controller
     }
 
     // Reject donation
-    public function reject($id)
+    public function reject(Request $request, $id)
     {
+        if (!$request->user() || !$request->user()->is_admin) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized. Only admin can perform this action.',
+            ], 401);
+        }
         $donation = Donation::find($id);
         if (!$donation) {
             return response()->json(['success' => false, 'message' => 'Donation not found'], 404);
@@ -33,8 +45,14 @@ class DonationApiController extends Controller
     }
 
     // List donations with status pending (need approval)
-    public function pending()
+    public function pending(Request $request)
     {
+        if (!$request->user() || !$request->user()->is_admin) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized. Only admin can perform this action.',
+            ], 401);
+        }
         $pendingDonations = Donation::where('payment_verified', 'pending')->latest()->get();
         return response()->json([
             'success' => true,
