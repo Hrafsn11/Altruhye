@@ -185,4 +185,20 @@ class CampaignController extends Controller
             'message' => 'Campaign berhasil dihapus!'
         ]);
     }
+
+    /**
+     * Display a listing of the campaigns owned by the authenticated user.
+     */
+    public function myCampaigns(Request $request)
+    {
+        $user = $request->user();
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized',
+            ], 401);
+        }
+        $campaigns = Campaign::where('user_id', $user->id)->latest()->paginate(10);
+        return CampaignResource::collection($campaigns);
+    }
 }

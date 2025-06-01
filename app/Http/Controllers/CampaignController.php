@@ -55,7 +55,7 @@ class CampaignController extends Controller
     public function showMessages(Campaign $campaign)
     {
         // Pastikan hanya pemilik campaign yang bisa akses
-        if ($campaign->user_id !== auth()->id()) {
+        if ($campaign->user_id !== Auth::id()) {
             abort(403);
         }
         

@@ -15,6 +15,7 @@ Route::apiResource('campaigns', CampaignController::class)->only(['index', 'show
 // Campaign API Routes (hanya user login untuk create, update, delete)
 Route::middleware('auth:sanctum')->group(function() {
     Route::apiResource('campaigns', CampaignController::class)->only(['store', 'update', 'destroy']);
+    Route::get('my-campaigns', [CampaignController::class, 'myCampaigns']);
 });
 
 // Donation API Routes
