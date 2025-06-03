@@ -7,8 +7,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
+/**
+ * Controller untuk autentikasi user (API)
+ * - Login & logout
+ */
 class AuthController extends Controller
 {
+    /**
+     * Login user dan generate token Sanctum.
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function login(Request $request)
     {
         $request->validate([
@@ -34,6 +43,11 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * Logout user (revoke token).
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();

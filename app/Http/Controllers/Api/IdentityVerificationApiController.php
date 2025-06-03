@@ -7,9 +7,18 @@ use App\Models\IdentityVerification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Controller untuk verifikasi identitas user (API)
+ * - Submit verifikasi (form-data & raw JSON)
+ * - Lihat status verifikasi sendiri
+ */
 class IdentityVerificationApiController extends Controller
 {
-    // User submit identity verification
+    /**
+     * User submit verifikasi identitas (dengan upload file).
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request)
     {
         if (!$request->user()) {
@@ -58,7 +67,11 @@ class IdentityVerificationApiController extends Controller
         ], 201);
     }
 
-    // User get their own verification status
+    /**
+     * User melihat status verifikasi identitas miliknya.
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function me(Request $request)
     {
         if (!$request->user()) {
@@ -74,7 +87,11 @@ class IdentityVerificationApiController extends Controller
         ]);
     }
 
-    // User submit identity verification via raw JSON (tanpa upload file)
+    /**
+     * User submit verifikasi identitas (raw JSON, tanpa upload file).
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function storeRaw(Request $request)
     {
         if (!$request->user()) {

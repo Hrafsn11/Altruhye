@@ -6,6 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
+/**
+ * Model Campaign
+ * Merepresentasikan data galang dana/barang/dukungan
+ *
+ * Relasi:
+ * - user: User yang membuat campaign
+ * - donations: Donasi yang masuk ke campaign
+ * - emotionalSessions: Sesi dukungan emosional (jika ada)
+ */
 class Campaign extends Model
 {
     use HasFactory;
@@ -26,16 +35,25 @@ class Campaign extends Model
         'gambar' 
     ];
 
+    /**
+     * Relasi ke user pembuat campaign
+     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Relasi ke donasi yang masuk ke campaign
+     */
     public function donations()
     {
         return $this->hasMany(Donation::class);
     }
 
+    /**
+     * Relasi ke sesi dukungan emosional (jika ada)
+     */
     public function emotionalSessions()
     {
         return $this->hasMany(EmotionalSession::class);

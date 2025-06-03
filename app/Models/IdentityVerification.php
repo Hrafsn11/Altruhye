@@ -5,6 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Model IdentityVerification
+ * Menyimpan data verifikasi identitas user
+ *
+ * Relasi:
+ * - user: User yang mengajukan verifikasi
+ */
 class IdentityVerification extends Model
 {
     use HasFactory;
@@ -20,6 +27,9 @@ class IdentityVerification extends Model
         'status',
     ];
 
+    /**
+     * Relasi ke user yang mengajukan verifikasi
+     */
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -14,7 +14,15 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 
-
+/**
+ * Model User
+ * Merepresentasikan data user aplikasi (donatur/admin/pemilik campaign)
+ *
+ * Relasi:
+ * - campaigns: Campaign yang dibuat user
+ * - donations: Donasi yang dilakukan user
+ * - identityVerifications: Data verifikasi identitas user
+ */
 class User extends Authenticatable implements FilamentUser // Implementasikan FilamentUser
 {
     use HasApiTokens;
@@ -92,24 +100,34 @@ class User extends Authenticatable implements FilamentUser // Implementasikan Fi
 
         return $this->defaultProfilePhotoUrl();
     }
+
+    /**
+     * Relasi ke campaign yang dibuat user
+     */
+    public function campaigns()
+    {
+        return $this->hasMany(Campaign::class);
+    }
+
+    /**
+     * Relasi ke donasi yang dilakukan user
+     */
     public function donations()
     {
-        return $this->hasMany(\App\Models\Donation::class);
+        return $this->hasMany(Donation::class);
     }
-    public function identityVerification()
+
+    /**
+     * Relasi ke data verifikasi identitas user
+     */
+    public function identityVerifications()
     {
-        return $this->hasOne(IdentityVerification::class);
+        return $this->hasMany(\App\Models\IdentityVerification::class);
     }
 
     // Implementasi method canAccessPanel
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->is_admin; // Hanya user dengan is_admin true yang bisa akses
-    }
-
-    // Relasi ke Campaign
-    public function campaigns()
-    {
-        return $this->hasMany(Campaign::class);
     }
 }

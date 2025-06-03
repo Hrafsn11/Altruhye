@@ -10,10 +10,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
+/**
+ * Controller untuk manajemen Donasi (API)
+ * - List donasi publik
+ * - Donasi oleh user login/guest
+ * - Riwayat donasi user
+ */
 class DonationController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Menampilkan daftar donasi publik (hanya yang sudah diverifikasi).
+     * Bisa difilter berdasarkan campaign/type.
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index(Request $request)
     {
@@ -30,7 +39,9 @@ class DonationController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Membuat donasi (bisa guest atau user login).
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -93,7 +104,9 @@ class DonationController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Menampilkan detail donasi tertentu.
+     * @param string $id
+     * @return \Illuminate\Http\JsonResponse|DonationResource
      */
     public function show(string $id)
     {
@@ -132,7 +145,9 @@ class DonationController extends Controller
     }
 
     /**
-     * Get donation history for the authenticated user.
+     * Menampilkan riwayat donasi user login.
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function myDonations(Request $request)
     {

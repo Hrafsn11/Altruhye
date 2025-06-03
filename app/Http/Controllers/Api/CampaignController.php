@@ -8,10 +8,19 @@ use App\Models\Campaign;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * Controller untuk manajemen Campaign (API)
+ * - List campaign publik
+ * - CRUD campaign milik user
+ * - Hanya user terverifikasi yang bisa membuat campaign
+ */
 class CampaignController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Menampilkan daftar campaign publik (status: active).
+     * Bisa difilter berdasarkan tipe.
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index(Request $request)
     {
@@ -24,7 +33,9 @@ class CampaignController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Membuat campaign baru (hanya untuk user login & terverifikasi).
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -76,7 +87,9 @@ class CampaignController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Menampilkan detail campaign tertentu (hanya jika status: active).
+     * @param string $id
+     * @return \Illuminate\Http\JsonResponse|CampaignResource
      */
     public function show(string $id)
     {
@@ -101,7 +114,10 @@ class CampaignController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update campaign (hanya untuk user pemilik).
+     * @param Request $request
+     * @param string $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, string $id)
     {
@@ -151,7 +167,9 @@ class CampaignController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Hapus campaign (hanya untuk user pemilik).
+     * @param string $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(string $id)
     {
@@ -187,7 +205,9 @@ class CampaignController extends Controller
     }
 
     /**
-     * Display a listing of the campaigns owned by the authenticated user.
+     * Menampilkan daftar campaign milik user login.
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function myCampaigns(Request $request)
     {
