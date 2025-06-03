@@ -11,6 +11,15 @@ Altruhye adalah aplikasi web berbasis Laravel untuk galang dana, barang, dan duk
 - **Notifikasi**: Notifikasi status donasi, campaign, dan verifikasi identitas.
 - **API RESTful**: Semua fitur utama tersedia via endpoint API, mudah diintegrasikan dengan frontend atau Postman.
 
+## Contoh Tampilan
+
+<p align="center">
+  <img src="https://i.imgur.com/ZE3mpHW.png" width="600" alt="Landing Page" />
+  <img src="https://i.imgur.com/rlRI0mQ.png" width="600" alt="Daftar Campaign" />
+  <img src="https://i.imgur.com/5fwi3V2.png" width="600" alt="Form Donasi" />
+  <img src="https://i.imgur.com/ofLZLjD.png" width="600" alt="Dashboard User" />
+</p>
+
 ## Struktur API (Ringkasan Endpoint)
 
 | Endpoint                        | Method | Auth         | Keterangan                        |
