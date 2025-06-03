@@ -43,7 +43,7 @@ Altruh adalah aplikasi web berbasis Laravel untuk galang dana, barang, dan dukun
 
 1. **Clone repo & install dependency**
    ```powershell
-   git clone <repo-url>
+   git clone https://github.com/Hrafsn11/Altruh.git
    cd Altruh
    composer install
    npm install && npm run build
