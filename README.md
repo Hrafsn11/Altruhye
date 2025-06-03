@@ -1,6 +1,6 @@
-# Altruhye - Platform Galang Dana, Barang, & Dukungan
+# Altruh - Platform Galang Dana, Barang, & Dukungan
 
-Altruhye adalah aplikasi web berbasis Laravel untuk galang dana, barang, dan dukungan emosional. Mendukung fitur donasi oleh user login maupun guest, verifikasi identitas, approval admin, dan riwayat donasi/campaign. Cocok untuk portofolio backend/API modern.
+Altruh adalah aplikasi web berbasis Laravel untuk galang dana, barang, dan dukungan emosional. Mendukung fitur donasi oleh user login maupun guest, verifikasi identitas, approval admin, dan riwayat donasi/campaign. Cocok untuk portofolio backend/API modern.
 
 ## Fitur Utama
 - **Manajemen Campaign**: Buat, lihat, update, hapus campaign (dana, barang, dukungan).
@@ -44,7 +44,7 @@ Altruhye adalah aplikasi web berbasis Laravel untuk galang dana, barang, dan duk
 1. **Clone repo & install dependency**
    ```powershell
    git clone <repo-url>
-   cd Altruhye
+   cd Altruh
    composer install
    npm install && npm run build
    cp .env.example .env
