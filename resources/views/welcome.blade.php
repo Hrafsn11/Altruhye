@@ -1,15 +1,15 @@
 <x-layout>
   {{-- HEADER --}}
-  <header class="px-8 py-40  bg-gray-50 rounded-lg ">
+  <header class="px-6 lg:px-8 py-32 md:py-40 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-b-3xl overflow-hidden">
       <div class="flex flex-col md:flex-row items-center justify-between">
           <div class="md:w-1/2">
-              <h2 class="text-blue-600 text-lg font-semibold">Berbagi Manfaat Untuk Sesama</h2>
-              <h1 class="text-3xl font-bold text-gray-800 mt-2">Setiap bantuanmu pasti bermanfaat</h1>
-              <p class="text-gray-600 mt-4">Galang dana dan donasi online kini semakin mudah dilakukan dimanapun dan kapanpun.</p>
-              <button class="bg-amber-500 text-white px-6 py-3 rounded-full mt-6 shadow-lg transition-all duration-300 hover:bg-bg-amber-600 hover:scale-105">Donasi Sekarang</button>
-              <p class="text-gray-600 mt-4">Download Aplikasi Altruh</p>
+              <h2 class="text-blue-700 text-lg font-semibold tracking-wide uppercase mb-2">Berbagi Manfaat Untuk Sesama</h2>
+              <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">Setiap bantuanmu <span class="text-amber-600">pasti bermanfaat</span></h1>
+              <p class="text-gray-700 mt-4 text-lg leading-relaxed">Galang dana dan donasi online kini semakin mudah dilakukan dimanapun dan kapanpun.</p>
+              <a href="#campaigns" class="inline-block bg-amber-500 text-white px-8 py-4 rounded-full mt-8 text-lg font-semibold shadow-lg transition-all duration-300 hover:bg-amber-600 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-opacity-75">Donasi Sekarang</a>
+              <p class="text-gray-700 mt-10 text-base font-semibold">Download Aplikasi Altruh</p>
               <div class="flex space-x-4 mt-2">
-                  <img alt="Google Play Store" class="h-12 transform transition-all duration-300 hover:scale-110"
+                  <img alt="Google Play Store" class="h-12 cursor-pointer transform transition-all duration-300 hover:scale-110"
                        src="https://cdn.worldvectorlogo.com/logos/google-play-badge-2022-2.svg" />
                   <img alt="Apple App Store" class="h-12 transform transition-all duration-300 hover:scale-110"
                        src="https://cdn.worldvectorlogo.com/logos/available-on-the-app-store-1.svg" />
@@ -17,12 +17,12 @@
           </div>
           <div class="md:w-1/2 flex flex-wrap justify-center mt-6 md:mt-0">
               <div class="w-full md:w-1/2 p-2">
-                  <img alt="Smiling child pointing"
-                       class="w-full h-auto object-cover rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105"
+                  <img alt="Smiling child pointing" loading="lazy"
+                       class="w-full h-auto object-cover rounded-2xl shadow-xl transform transition-all duration-300 hover:scale-105"
                        src="https://storage.googleapis.com/a1aa/image/DCMLURoZWZ0u71HEaoYyG6FToxGvjmqc9p8OcqdI_dQ.jpg" />
               </div>
               <div class="w-full md:w-1/2 p-2">
-                  <img alt="Group of children smiling and pointing"
+                  <img alt="Group of children smiling and pointing" loading="lazy"
                        class="w-full h-auto object-cover rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105"
                        src="https://storage.googleapis.com/a1aa/image/o6W64-h6PdpUbad9TPXwXSnGv5p3p1TLAsocvgo8SjU.jpg" />
               </div>
@@ -32,9 +32,9 @@
 
   {{-- FITUR UTAMA --}}
   <div class="bg-white py-12 px-4 sm:px-6 lg:px-8">
-      <div class="max-w-7xl mx-auto">
+      <div class="max-w-7xl mx-auto pt-12">
           <h2 class="text-2xl font-bold text-gray-900 text-center mb-8">Apa yang bisa kamu lakukan di Altruh?</h2>
-          <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
+          <div class="grid grid-cols-1 gap-8 md:grid-cols-3 mt-10">
               {{-- Bantuan Uang --}}
               <div class="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
                   <div class="p-6">
@@ -86,7 +86,7 @@
   </div>
 
   {{-- KAMPANYE TERKINI --}}
-  <div class="bg-white py-12 px-4 sm:px-6 lg:px-8">
+  <div id="campaigns" class="bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
     <div class="max-w-7xl mx-auto">
         <h2 class="text-2xl font-bold text-gray-900 text-center mb-8">Bantuan Terkini</h2>
         @php
@@ -96,7 +96,7 @@
           @forelse ($activeCampaigns as $campaign)
           <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 border border-gray-200/80">
               <div class="relative">
-                  <img class="w-full h-48 object-cover" src="{{ asset('storage/' . $campaign->gambar) }}"
+                  <img class="w-full h-48 object-cover" loading="lazy" src="{{ asset('storage/' . $campaign->gambar) }}"
                        alt="{{ $campaign->title }}">
                   <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-amber-700 shadow-sm">
                       {{ ucfirst($campaign->category) }}
@@ -151,7 +151,7 @@
                   <!-- Penggalang -->
                   <div class="flex items-center gap-3 border-t pt-4 mt-4">
                       <img class="h-8 w-8 rounded-full object-cover"
-                           src="{{ $campaign->user ? $campaign->user->profile_photo_url : asset('images/anonymous.png') }}"
+                           src="{{ $campaign->user ? ($campaign->user->profile_photo_url ?? asset('images/anonymous.png')) : asset('images/anonymous.png') }}"
                            alt="{{ $campaign->user->name ?? 'Admin' }}">
                       <div class="text-sm">
                           <p class="font-medium text-gray-800">{{ $campaign->user->name ?? 'Admin' }}</p>
@@ -182,7 +182,7 @@
     </div>
   </div>
 
-<section class="bg-white py-16 px-4 sm:px-6 lg:px-8">
+<section class="bg-white py-16 px-4 sm:px-6 lg:px-8 border-t border-gray-100">
   <div class="max-w-7xl mx-auto text-center bg-gradient-to-br from-amber-50 via-amber-100 to-orange-100 rounded-lg p-8 shadow-lg">
     <h2 class="text-2xl font-bold text-gray-900 mb-8">Altruh dalam Angka</h2>
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
@@ -202,25 +202,25 @@
   </div>
 </section>
 
-<section class="bg-white py-20 px-4 sm:px-6 lg:px-8">
+<section class="bg-gray-50 py-20 px-4 sm:px-6 lg:px-8">
   <div class="max-w-7xl mx-auto text-center">
     <h2 class="text-3xl font-bold text-gray-900 mb-12">Cerita Mereka, Bukti Nyata</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       
-      <div class="bg-gray-50 p-6 rounded-xl shadow hover:shadow-xl transition">
-        <img class="h-20 w-20 mx-auto rounded-full mb-4" src="https://randomuser.me/api/portraits/women/12.jpg" alt="Ayu">
+      <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-100">
+        <img class="h-20 w-20 mx-auto rounded-full mb-4 object-cover ring-2 ring-amber-300 ring-offset-2" src="https://randomuser.me/api/portraits/women/12.jpg" alt="Ayu" loading="lazy">
         <p class="italic text-gray-700">"Anakku sempat tidak bisa sekolah karena biaya. Berkat Altruh, kami dapat bantuan dengan cepat. Terima kasih untuk semua donatur."</p>
         <p class="mt-4 font-semibold text-gray-900">Ayu – Ibu Rumah Tangga, Bandung</p>
       </div>
 
-      <div class="bg-gray-50 p-6 rounded-xl shadow hover:shadow-xl transition">
-        <img class="h-20 w-20 mx-auto rounded-full mb-4" src="https://randomuser.me/api/portraits/men/68.jpg" alt="Fajar">
+      <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-100">
+        <img class="h-20 w-20 mx-auto rounded-full mb-4 object-cover ring-2 ring-blue-300 ring-offset-2" src="https://randomuser.me/api/portraits/men/68.jpg" alt="Fajar" loading="lazy">
         <p class="italic text-gray-700">"Saya ikut membantu kampanye pengobatan adik kecil. Rasanya luar biasa bisa menolong walau sedikit."</p>
         <p class="mt-4 font-semibold text-gray-900">Fajar – Mahasiswa, Yogyakarta</p>
       </div>
 
-      <div class="bg-gray-50 p-6 rounded-xl shadow hover:shadow-xl transition">
-        <img class="h-20 w-20 mx-auto rounded-full mb-4" src="https://randomuser.me/api/portraits/women/47.jpg" alt="Dewi">
+      <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-100">
+        <img class="h-20 w-20 mx-auto rounded-full mb-4 object-cover ring-2 ring-purple-300 ring-offset-2" src="https://randomuser.me/api/portraits/women/47.jpg" alt="Dewi" loading="lazy">
         <p class="italic text-gray-700">"Saat merasa sendiri, saya coba fitur dukungan emosional. Rasanya seperti ngobrol dengan teman lama. Terima kasih Altruh."</p>
         <p class="mt-4 font-semibold text-gray-900">Dewi – Guru SD, Surabaya</p>
       </div>
@@ -229,7 +229,7 @@
   </div>
 </section>
 
-<section class="bg-white py-20 px-4 sm:px-6 lg:px-8">
+<section class="bg-white py-20 px-4 sm:px-6 lg:px-8 border-t border-gray-100">
   <div class="max-w-4xl mx-auto">
     <h2 class="text-4xl font-bold text-center text-amber-400 mb-12">Pertanyaan Umum</h2>
 
@@ -297,26 +297,37 @@
   </script>
 </section>
 
-
-<section class="bg-white py-20 px-4 sm:px-6 lg:px-8">
+<section class="bg-gray-50 py-20 px-4 sm:px-6 lg:px-8">
   <div class="max-w-6xl mx-auto text-center">
     <h2 class="text-2xl font-bold text-gray-900 mb-12">Keamanan & Kepercayaan</h2>
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
 
       <div class="flex flex-col items-center">
-        <img src="https://static.vecteezy.com/system/resources/previews/011/015/345/non_2x/security-concept-secure-information-3d-render-personal-data-free-png.png" class="w-20 h-20 mb-4" alt="Secure">
+        {{-- Mengganti gambar dengan SVG atau ikon jika memungkinkan untuk konsistensi --}}
+        {{-- Contoh menggunakan ikon heroicons (membutuhkan instalasi @heroicons/react atau serupa) --}}
+        {{-- Jika tidak menggunakan library ikon, pertimbangkan menggunakan gambar yang konsisten atau SVG inline --}}
+        <svg class="w-16 h-16 text-blue-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.003 12.003 0 002 12c0 2.514.806 4.852 2.198 6.823A12.003 12.003 0 0012 22c2.514 0 4.852-.806 6.823-2.198A12.003 12.003 0 0022 12c0-2.514-.806-4.852-2.198-6.823z"></path>
+        </svg>
+        {{-- <img src="https://static.vecteezy.com/system/resources/previews/011/015/345/non_2x/security-concept-secure-information-3d-render-personal-data-free-png.png" class="w-20 h-20 mb-4" alt="Secure"> --}}
         <p class="font-semibold text-gray-800">Transaksi Aman</p>
         <p class="text-sm text-gray-600 mt-2">Kami menggunakan enkripsi dan sistem pembayaran terpercaya.</p>
       </div>
 
       <div class="flex flex-col items-center">
-        <img src="https://static.vecteezy.com/system/resources/previews/029/896/118/non_2x/3d-social-media-blue-verified-free-png.png" class="w-16 h-16 mb-4" alt="Verified">
+        <svg class="w-16 h-16 text-green-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.003 12.003 0 002 12c0 2.514.806 4.852 2.198 6.823A12.003 12.003 0 0012 22c2.514 0 4.852-.806 6.823-2.198A12.003 12.003 0 0022 12c0-2.514-.806-4.852-2.198-6.823z"></path>
+        </svg>
+        {{-- <img src="https://static.vecteezy.com/system/resources/previews/029/896/118/non_2x/3d-social-media-blue-verified-free-png.png" class="w-16 h-16 mb-4" alt="Verified"> --}}
         <p class="font-semibold text-gray-800">Akun Terverifikasi</p>
         <p class="text-sm text-gray-600 mt-2">Semua penggalang bantuan diverifikasi sebelum kampanye tayang.</p>
       </div>
 
       <div class="flex flex-col items-center">
-        <img src="https://static.vecteezy.com/system/resources/thumbnails/028/293/896/small_2x/five-star-ratting-icon-3d-render-illustration-png.png" class="w-16 h-16 mb-4" alt="Report">
+        <svg class="w-16 h-16 text-red-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4H5.07c.546 0 1.07-.11 1.555-.318A13.953 13.953 0 0112 21c2.649 0 5.195-.673 7.425-1.988.485.208 1.009.318 1.555.318h1.868c.334 0 .606-.27.606-.604V14.56a.604.604 0 00-.606-.604h-1.868c-.546 0-1.07.11-1.555.318A13.953 13.953 0 0112 17c-2.649 0-5.195-.673-7.425-1.988-.485.208-1.009.318-1.555.318H2.606a.604.604 0 00-.606.604v5.836c0 .334.272.604.606.604h1.868zM12 3a9 9 0 100 18 9 9 0 000-18z"></path>
+        </svg>
+        {{-- <img src="https://static.vecteezy.com/system/resources/thumbnails/028/293/896/small_2x/five-star-ratting-icon-3d-render-illustration-png.png" class="w-16 h-16 mb-4" alt="Report"> --}}
         <p class="font-semibold text-gray-800">Pelaporan Mudah</p>
         <p class="text-sm text-gray-600 mt-2">Pengguna dapat melaporkan kampanye mencurigakan kapan saja.</p>
       </div>

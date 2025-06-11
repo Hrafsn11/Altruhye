@@ -8,7 +8,12 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $campaigns = Campaign::with('user')->latest()->take(6)->get(); // ambil 6 terbaru
+        // Ambil 3 campaign dengan status 'active' terbaru
+        $campaigns = Campaign::with('user')
+            ->where('status', 'active')
+            ->latest()
+            ->take(3)
+            ->get();
         return view('welcome', compact('campaigns'));
     }
 }

@@ -1,66 +1,70 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Altruhye - Platform Galang Dana, Barang, & Dukungan
+
+Altruhye adalah aplikasi web berbasis Laravel untuk galang dana, barang, dan dukungan emosional. Mendukung fitur donasi oleh user login maupun guest, verifikasi identitas, approval admin, dan riwayat donasi/campaign. Cocok untuk portofolio backend/API modern.
+
+## Fitur Utama
+- **Manajemen Campaign**: Buat, lihat, update, hapus campaign (dana, barang, dukungan).
+- **Donasi**: Donasi bisa dilakukan oleh user login maupun guest (anonim).
+- **Verifikasi Identitas**: User wajib verifikasi identitas sebelum membuat campaign.
+- **Approval Admin**: Admin dapat approve/reject campaign, donasi, dan verifikasi identitas.
+- **Riwayat Donasi & Campaign**: User dapat melihat riwayat donasi dan campaign miliknya.
+- **Notifikasi**: Notifikasi status donasi, campaign, dan verifikasi identitas.
+- **API RESTful**: Semua fitur utama tersedia via endpoint API, mudah diintegrasikan dengan frontend atau Postman.
+
+## Contoh Tampilan
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="https://i.imgur.com/ZE3mpHW.png" width="600" alt="Landing Page" />
+  <img src="https://i.imgur.com/rlRI0mQ.png" width="600" alt="Daftar Campaign" />
+  <img src="https://i.imgur.com/5fwi3V2.png" width="600" alt="Form Donasi" />
+  <img src="https://i.imgur.com/ofLZLjD.png" width="600" alt="Dashboard User" />
 </p>
 
-## About Laravel
+## Struktur API (Ringkasan Endpoint)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+| Endpoint                        | Method | Auth         | Keterangan                        |
+|---------------------------------|--------|--------------|-----------------------------------|
+| /api/campaigns                  | GET    | Public       | List campaign aktif               |
+| /api/campaigns/{id}             | GET    | Public       | Detail campaign                   |
+| /api/campaigns                  | POST   | User         | Buat campaign (verifikasi wajib)  |
+| /api/campaigns/{id}             | PUT    | User         | Update campaign milik user        |
+| /api/campaigns/{id}             | DELETE | User         | Hapus campaign milik user         |
+| /api/my-campaigns               | GET    | User         | List campaign milik user          |
+| /api/donations                  | GET    | Public       | List donasi (hanya yang verified) |
+| /api/donations                  | POST   | Public/User  | Donasi (guest & login)            |
+| /api/my-donations               | GET    | User         | Riwayat donasi user               |
+| /api/identity-verifications     | POST   | User         | Ajukan verifikasi identitas       |
+| /api/identity-verifications/me  | GET    | User         | Status verifikasi user            |
+| /api/login                      | POST   | -            | Login user                        |
+| /api/logout                     | POST   | User         | Logout user                       |
+| /api/admin/...                  | -      | Admin        | Endpoint approval admin           |
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Cara Install & Jalankan
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. **Clone repo & install dependency**
+   ```powershell
+   git clone <repo-url>
+   cd Altruhye
+   composer install
+   npm install && npm run build
+   cp .env.example .env
+   php artisan key:generate
+   # Atur koneksi database di .env
+   php artisan migrate --seed
+   php artisan storage:link
+   php artisan serve
+   ```
+2. **Testing API**
+   - Gunakan Postman/Insomnia untuk akses endpoint di atas.
+   - Untuk endpoint user/admin, login dulu dan gunakan Bearer Token dari response login.
+   - Donasi bisa dilakukan tanpa login (guest) maupun dengan login.
 
-## Learning Laravel
+## Struktur Kode
+- `app/Models/` : Model utama (Campaign, Donation, User, dsb)
+- `app/Http/Controllers/Api/` : Controller API utama
+- `routes/api.php` : Definisi endpoint API
+- `app/Notifications/` : Notifikasi status
+- `app/Observers/` : Observer update otomatis
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Kontribusi & Lisensi
+Project ini untuk keperluan portofolio. Silakan fork/clone untuk belajar. Lisensi MIT.

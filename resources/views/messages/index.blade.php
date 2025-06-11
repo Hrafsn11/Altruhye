@@ -15,8 +15,12 @@
                         $messageCount = $messages->count();
                     @endphp
 
-                    <div class="bg-white border border-gray-200 rounded-xl shadow-2xl hover:shadow-2xl transition transform hover:scale-105 duration-300 ease-in-out">
-                        <div class="p-6 flex flex-col justify-between">
+                    {{-- PERUBAHAN 1: Tambahkan `flex flex-col` untuk membuat kartu ini menjadi container flex vertikal --}}
+                    <div class="bg-white border border-gray-200 rounded-xl shadow-2xl hover:shadow-2xl transition transform hover:scale-105 duration-300 ease-in-out flex flex-col">
+                        
+                        {{-- PERUBAHAN 2: Ganti kelas di div ini menjadi `flex-1` (atau `flex-grow`). 
+                             Ini akan membuatnya "tumbuh" dan mengisi ruang kosong, mendorong tombol ke bawah. --}}
+                        <div class="p-6 flex-1">
                             <h3 class="text-2xl font-semibold text-gray-900 mb-4">{{ $campaign->title }}</h3>
 
                             @if ($messageCount > 0)
@@ -35,10 +39,12 @@
                             @endif
                         </div>
 
-                        <div class="bg-gradient-to-r from-amber-400 to-amber-500 p-4 rounded-b-xl text-center">
+                        <div class="bg-gradient-to-r from-amber-400 to-amber-500 p-0 rounded-b-xl">
                             <a href="{{ route('campaigns.messages', $campaign) }}"
-                               class="inline-block w-full text-center bg-white hover:bg-amber-200 text-amber-600 hover:text-amber-700 text-sm font-semibold py-3 rounded-md transition duration-200">
-                                Lihat Pesan
+                               class="block w-full text-center bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-white text-base font-bold py-3 rounded-b-xl transition duration-200 tracking-wide shadow-none border-0 focus:outline-none focus:ring-2 focus:ring-amber-300">
+                                <span class="inline-flex items-center justify-center gap-2">
+                                    Lihat Pesan
+                                </span>
                             </a>
                         </div>
                     </div>

@@ -47,7 +47,7 @@
                 </x-button>
             </div>
 
-            <div class="mt-6 text-center">
+            <div class="flex items-center justify-end mt-6">
                 <p class="text-sm text-gray-700">
                     {{ __("Belum punya akun?") }}
                     <a class="underline font-semibold text-amber-600 hover:text-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500" href="{{ route('register') }}">

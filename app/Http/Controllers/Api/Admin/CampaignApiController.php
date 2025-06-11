@@ -53,7 +53,7 @@ class CampaignApiController extends Controller
                 'message' => 'Unauthorized. Only admin can perform this action.',
             ], 401);
         }
-        $pendingCampaigns = Campaign::where('status', 'pending')->latest()->get();
+        $pendingCampaigns = Campaign::with('user:id,name,email')->where('status', 'pending')->latest()->get();
         return response()->json([
             'success' => true,
             'data' => $pendingCampaigns

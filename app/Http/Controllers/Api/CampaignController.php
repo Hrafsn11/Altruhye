@@ -24,11 +24,11 @@ class CampaignController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Campaign::where('status', 'active');
+        $query = Campaign::with('user:id,name')->where('status', 'active');
         if ($request->filled('type') && in_array($request->type, ['financial', 'goods', 'emotional'])) {
             $query->where('type', $request->type);
         }
-        $campaigns = $query->latest()->paginate(10);
+        $campaigns = $query->latest()->get();
         return CampaignResource::collection($campaigns);
     }
 
@@ -93,7 +93,7 @@ class CampaignController extends Controller
      */
     public function show(string $id)
     {
-        $campaign = Campaign::with(['donations' => function ($query) {
+        $campaign = Campaign::with(['user:id,name', 'donations' => function ($query) {
             $query->select('id', 'campaign_id', 'donor_name', 'type', 'amount', 'item_description', 'item_quantity', 'session_count', 'created_at')
                   ->where('payment_verified', 'verified')
                   ->latest();
@@ -218,7 +218,7 @@ class CampaignController extends Controller
                 'message' => 'Unauthorized',
             ], 401);
         }
-        $campaigns = Campaign::where('user_id', $user->id)->latest()->paginate(10);
+        $campaigns = Campaign::where('user_id', $user->id)->latest()->get();
         return CampaignResource::collection($campaigns);
     }
 }

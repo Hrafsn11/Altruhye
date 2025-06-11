@@ -11,6 +11,7 @@ class CampaignResource extends JsonResource
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
+            'creator_name' => $this->whenLoaded('user', $this->user->name),
             'title' => $this->title,
             'slug' => $this->slug,
             'description' => $this->description,

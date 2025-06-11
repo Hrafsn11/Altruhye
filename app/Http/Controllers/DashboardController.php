@@ -31,7 +31,7 @@ class DashboardController extends Controller
 
         // Statistik status kampanye
         $campaignStatusCount = [
-            'active' => $campaigns->where('status', 'approved')->count(),
+            'active' => $campaigns->where('status', 'active')->count(),
             'pending' => $campaigns->where('status', 'pending')->count(),
             'rejected' => $campaigns->where('status', 'rejected')->count(),
         ];

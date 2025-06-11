@@ -56,4 +56,33 @@ class AuthController extends Controller
             'message' => 'Logout berhasil',
         ]);
     }
+
+    /**
+     * Register user baru dan generate token Sanctum.
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function register(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+        ]);
+
+        $token = $user->createToken('api-token')->plainTextToken;
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Registrasi berhasil',
+            'token' => $token,
+            'user' => $user,
+        ], 201);
+    }
 }
